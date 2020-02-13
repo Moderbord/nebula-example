@@ -3,10 +3,9 @@
 #include "game/manager.h"
 #include "util/arraystack.h"
 #include "util/queue.h"
+#include "unientity.h"
 
 namespace Uni {
-
-	typedef unsigned UniEntity;
 
 	const SizeT MaxNumEntities = 256;
 

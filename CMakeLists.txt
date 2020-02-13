@@ -18,6 +18,9 @@ nebula_begin_app(nebula-example windowed)
             exampleapp.h
 			unientitymanager.cc
 			unientitymanager.h
+			unicomponentmanager.cc
+			unicomponentmanager.h
+			unientity.h
         )
 
     fips_deps(foundation render resource dynui scripting)
