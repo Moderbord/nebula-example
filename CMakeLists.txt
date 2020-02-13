@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.7.2)
 get_filename_component(FIPS_ROOT_DIR "../fips" ABSOLUTE)
 include(${FIPS_ROOT_DIR}/cmake/fips.cmake)
 
-fips_setup(PROJECT nebula-example-project)
+fips_setup(PROJECT modebrods-imba-project)
 fips_include_directories(.)
 
 nebula_begin_app(nebula-example windowed)
@@ -16,6 +16,8 @@ nebula_begin_app(nebula-example windowed)
             main.cc
             exampleapp.cc
             exampleapp.h
+			unientitymanager.cc
+			unientitymanager.h
         )
 
     fips_deps(foundation render resource dynui scripting)
