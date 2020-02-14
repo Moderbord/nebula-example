@@ -4,7 +4,7 @@
 
 namespace Uni
 {
-	//__ImplementClass(Uni::UniComponentManager, 'UEMG', Game::Manager)
+	//__ImplementClass(Uni::UniComponentManager, 'UCMG', Game::Manager)
 	__ImplementSingleton(UniComponentManager)
 
 	UniComponentManager::UniComponentManager()
