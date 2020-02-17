@@ -33,10 +33,7 @@
 #include "system/nebulasettings.h"
 #include "profiling/profiling.h"
 
-#include "unicomponentmanager.h"
-#include "unientitymanager.h"
-#include "unicomponentinterface.h"
-#include "unicomponent.h"
+
 
 
 #ifdef __WIN32__
@@ -204,6 +201,10 @@ ExampleApplication::Open()
         // create environment context for the atmosphere effects
 		EnvironmentContext::Create(this->globalLight);
 
+		// Sparkles sparkly surprise
+		this->compMgr = Manager::ComponentManager::Create();
+		this->entMgr = Manager::EntityManager::Create();
+
         this->UpdateCamera();
 
         return true;
@@ -264,17 +265,6 @@ ExampleApplication::Run()
     const Ptr<Input::Keyboard>& keyboard = inputServer->GetDefaultKeyboard();
     const Ptr<Input::Mouse>& mouse = inputServer->GetDefaultMouse();
 
-	// inits
-	Uni::ComponentManager cMgr = Uni::ComponentManager();
-	Uni::EntityManager eMgr = Uni::EntityManager();
-	
-	Uni::ComponentTransform trans = Uni::ComponentTransform();
-	Uni::Entity ent = eMgr.NewEntity();
-	
-
-	cMgr.RegisterComponent(&trans);
-
-	cMgr.Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent);
 
     
     Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();

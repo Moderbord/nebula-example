@@ -23,6 +23,11 @@
 #include "core/coreserver.h"
 #include "io/iointerface.h"
 
+#include "componentmanager.h"
+#include "entitymanager.h"
+#include "componentinterface.h"
+#include "component.h"
+
 namespace Example
 {
 
@@ -87,7 +92,11 @@ protected:
 
 #if __NEBULA_HTTP_FILESYSTEM__
 	Ptr<Http::HttpClientRegistry> httpClientRegistry;
-#endif      
+#endif
+
+	Ptr<Manager::ComponentManager> compMgr;
+	Ptr<Manager::EntityManager> entMgr;
+
 };
 
 } // namespace Example

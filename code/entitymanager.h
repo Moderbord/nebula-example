@@ -1,5 +1,5 @@
 #pragma once
-//#include "core/refcounted.h"
+#include "core/refcounted.h"
 #include "core/singleton.h"
 #include "game/manager.h"
 #include "util/arraystack.h"
@@ -10,9 +10,10 @@ namespace Manager {
 
 	const SizeT MaxNumEntities = 256;
 
-	class EntityManager
+	class EntityManager : public Core::RefCounted
 	{
-		__DeclareSingleton(EntityManager)
+		__DeclareClass(Manager::EntityManager)
+		__DeclareSingleton(Manager::EntityManager)
 
 
 	public:

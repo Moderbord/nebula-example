@@ -1,6 +1,6 @@
 #pragma once
-#include "entity.h"
 #include "util/stringatom.h"
+#include "entity.h"
 
 namespace Component {
 

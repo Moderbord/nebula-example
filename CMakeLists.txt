@@ -16,14 +16,14 @@ nebula_begin_app(nebula-example windowed)
             main.cc
             exampleapp.cc
             exampleapp.h
-			unientitymanager.cc
-			unientitymanager.h
-			unicomponentmanager.cc
-			unicomponentmanager.h
-			unientity.h
-			unicomponentinterface.cc
-			unicomponentinterface.h
-			unicomponent.h
+			entitymanager.cc
+			entitymanager.h
+			componentmanager.cc
+			componentmanager.h
+			entity.h
+			componentinterface.cc
+			componentinterface.h
+			component.h
         )
 
     fips_deps(foundation render resource dynui scripting)

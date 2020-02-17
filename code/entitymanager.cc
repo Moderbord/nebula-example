@@ -4,7 +4,7 @@
 
 namespace Manager
 {
-	//__ImplementClass(Uni::EntityManager, 'UEMG', Game::Manager)
+	__ImplementClass(Manager::EntityManager, 'EMGR', Core::RefCounted)
 	__ImplementSingleton(EntityManager)
 
 	EntityManager::EntityManager() : _numEntities(0), _nextEntity(0)
