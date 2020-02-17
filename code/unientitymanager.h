@@ -1,3 +1,4 @@
+#pragma once
 //#include "core/refcounted.h"
 #include "core/singleton.h"
 #include "game/manager.h"
@@ -9,33 +10,32 @@ namespace Uni {
 
 	const SizeT MaxNumEntities = 256;
 
-	class UniEntityManager/* : public Game::Manager*/
+	class EntityManager
 	{
-		//__DeclareClass(UniEntityManager)
-		__DeclareSingleton(UniEntityManager)
+		__DeclareSingleton(EntityManager)
 
 
 	public:
 		// constructor
-		UniEntityManager();
+		EntityManager();
 		// destructor
-		~UniEntityManager();
+		~EntityManager();
 		// new entity
-		UniEntity NewEntity();
+		Entity NewEntity();
 		// delete entity
-		void DeleteEntity(const UniEntity& e);
+		void DeleteEntity(const Entity& e);
 		// check if entity is alive
-		bool IsAlive(const UniEntity& e) const;
+		bool IsAlive(const Entity& e) const;
 		// get number of alive entities
 		SizeT GetNumEntities() const;
 
 
 	private:
 		// Number of entities?
-		Util::ArrayStack<UniEntity, MaxNumEntities * sizeof(UniEntity)> _entities;
-		Util::Queue<UniEntity> _idQueue;
+		Util::ArrayStack<Entity, MaxNumEntities * sizeof(Entity)> _entities;
+		Util::Queue<Entity> _idQueue;
 		SizeT _numEntities;
-		UniEntity _nextEntity;
+		Entity _nextEntity;
 		
 
 

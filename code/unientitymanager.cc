@@ -1,30 +1,30 @@
-
+#pragma once
 #include "application/stdneb.h"
 #include "unientitymanager.h"
 
 namespace Uni
 {
-	//__ImplementClass(Uni::UniEntityManager, 'UEMG', Game::Manager)
-	__ImplementSingleton(UniEntityManager)
+	//__ImplementClass(Uni::EntityManager, 'UEMG', Game::Manager)
+	__ImplementSingleton(EntityManager)
 
-	UniEntityManager::UniEntityManager() : _numEntities(0), _nextEntity(0)
+	EntityManager::EntityManager() : _numEntities(0), _nextEntity(0)
 	{
 		__ConstructSingleton;
 	}
 
 
-	UniEntityManager::~UniEntityManager()
+	EntityManager::~EntityManager()
 	{
 		__DestructSingleton;
 	}
 
-	UniEntity UniEntityManager::NewEntity()
+	Entity EntityManager::NewEntity()
 	{
 		// If queue isn't empty
 		if (!this->_idQueue.IsEmpty())
 		{	
 			// pop queue and append it to entity ArrayStack
-			UniEntity e = this->_idQueue.Dequeue();
+			Entity e = this->_idQueue.Dequeue();
 			this->_entities.Append(e);
 			this->_numEntities++;
 			return e;
@@ -45,7 +45,7 @@ namespace Uni
 		return this->_nextEntity;
 	}
 
-	void UniEntityManager::DeleteEntity(const UniEntity& e)
+	void EntityManager::DeleteEntity(const Entity& e)
 	{	
 		// Get index from ArrayStack
 		IndexT index = this->_entities.FindIndex(e);
@@ -60,13 +60,13 @@ namespace Uni
 		}
 	}
 
-	bool UniEntityManager::IsAlive(const UniEntity& e) const
+	bool EntityManager::IsAlive(const Entity& e) const
 	{
-		// Find returns 0 if entity doesn't exist
+		// Returns 0 if entity doesn't exist
 		return this->_entities.Find(e) != 0;
 	}
 
-	SizeT UniEntityManager::GetNumEntities() const
+	SizeT EntityManager::GetNumEntities() const
 	{
 		return this->_numEntities;
 	}

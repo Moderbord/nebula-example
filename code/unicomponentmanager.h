@@ -1,37 +1,42 @@
+#pragma once
 #include "core/singleton.h"
 #include "game/manager.h"
 #include "util/arraystack.h"
 #include "util/queue.h"
+#include "util/hashtable.h"
+#include "util/stringatom.h"
 #include "unientity.h"
+#include "unicomponentinterface.h"
 
 namespace Uni {
 
-	const SizeT MaxNumEntities = 256;
+	const SizeT MaxNumComponents = 256;
 
-	class UniComponentManager/* : public Game::Manager*/
+	class ComponentManager
 	{
-		//__DeclareClass(UniEntityManager)
-		__DeclareSingleton(UniComponentManager)
+		__DeclareSingleton(ComponentManager)
 
 
 	public:
 		// constructor
-		UniComponentManager();
+		ComponentManager();
 		// destructor
-		~UniComponentManager();
-		// new entity
-		void RegisterEntity(const UniEntity& e);
-		// delete entity
-		void DeleteEntity(const UniEntity& e);
+		~ComponentManager();
+		// new component
+		void RegisterComponent(ComponentInterface* component);
+		// delete component
+		void UnregisterComponent(ComponentInterface* component);
+
+		bool HasComponent(ComponentInterface* component);
+
+		bool HasComponentByStringID(Util::StringAtom& stringID);
+
+		ComponentInterface* GetComponent(Util::StringAtom& stringID);
 
 	private:
-		//// Number of entities?
-		//Util::ArrayStack<UniEntity, MaxNumEntities * sizeof(UniEntity)> _entities;
-		//Util::Queue<UniEntity> _idQueue;
-		//SizeT _numEntities;
-		//UniEntity _nextEntity;
 
-
+		Util::HashTable<Util::StringAtom, ComponentInterface*> _componentTable;
+		Util::Array<ComponentInterface*> _components;
 
 	};
 }

@@ -31,6 +31,12 @@
 #include "io/debug/iopagehandler.h"
 #include "io/fswrapper.h"
 #include "system/nebulasettings.h"
+#include "profiling/profiling.h"
+
+#include "unicomponentmanager.h"
+#include "unientitymanager.h"
+#include "unicomponentinterface.h"
+#include "unicomponent.h"
 
 
 #ifdef __WIN32__
@@ -158,6 +164,10 @@ ExampleApplication::Open()
         this->wnd = CreateWindow(wndInfo);
 		this->cam = Graphics::CreateEntity();
 
+#if NEBULA_ENABLE_PROFILING
+		Profiling::ProfilingRegisterThread();
+#endif
+
         // create contexts, this could and should be bundled together
         CameraContext::Create();
         ModelContext::Create();
@@ -253,21 +263,34 @@ ExampleApplication::Run()
 
     const Ptr<Input::Keyboard>& keyboard = inputServer->GetDefaultKeyboard();
     const Ptr<Input::Mouse>& mouse = inputServer->GetDefaultMouse();
+
+	// inits
+	Uni::ComponentManager cMgr = Uni::ComponentManager();
+	Uni::EntityManager eMgr = Uni::EntityManager();
+	
+	Uni::ComponentTransform trans = Uni::ComponentTransform();
+	Uni::Entity ent = eMgr.NewEntity();
+	
+
+	cMgr.RegisterComponent(&trans);
+
+	cMgr.Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent);
+
     
     Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
-    // Register entity to various graphics contexts.
+    //// Register entity to various graphics contexts.
     // The template parameters are which contexts that the entity should be registered to.
     // ModelContext takes care of loading models and also handles transforms for instances of models.
     // Registering an entity to the ObservableContext will allow cameras to observe the entity (adds the entity to visibility culling system)
     Graphics::RegisterEntity<ModelContext, ObservableContext>(exampleEntity);
     // Setup the entitys model instance
-    ModelContext::Setup(exampleEntity, "mdl:system/placeholder.n3", "Examples");
+    ModelContext::Setup(exampleEntity, "mdl:environment/groundplane.n3", "Examples");
     // Set the transform of the entity
     ModelContext::SetTransform(exampleEntity, Math::matrix44::translation(Math::point(0, 0, 0)));
     // Setup the observable as a model
     ObservableContext::Setup(exampleEntity, VisibilityEntityType::Model);
 
-    // Example animated entity
+    //// Example animated entity
     Graphics::GraphicsEntityId animatedEntity = Graphics::CreateEntity();
     // The CharacterContext holds skinned, animated entites and takes care of playing animations etc.
     Graphics::RegisterEntity<ModelContext, ObservableContext, Characters::CharacterContext>(animatedEntity);
@@ -288,6 +311,9 @@ ExampleApplication::Run()
 
     while (run && !inputServer->IsQuitRequested())
     {   
+#if NEBULA_ENABLE_PROFILING
+		Profiling::ProfilingNewFrame();
+#endif
 #if __NEBULA_HTTP__
 		this->httpServerProxy->HandlePendingRequests();
 #endif
