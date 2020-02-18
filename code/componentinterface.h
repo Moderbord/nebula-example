@@ -6,7 +6,7 @@
 namespace Component {
 
 	typedef unsigned InstanceId;
-
+	const static int MaxNumInstances = 256;
 
 class ComponentInterface
 {
@@ -15,17 +15,21 @@ public:
 	ComponentInterface();
 	~ComponentInterface();
 
-	virtual InstanceId RegisterEntity(Entities::Entity& e) = 0;
+	InstanceId RegisterEntity(Entities::Entity& e);
 
-	virtual void DeregisterEntity(Entities::Entity& e) = 0;
+	void DeregisterEntity(Entities::Entity& e);
 
-	virtual InstanceId GetInstanceID(Entities::Entity& e) = 0;
+	bool IsRegistered(Entities::Entity& e);
+
+	InstanceId GetInstanceID(Entities::Entity& e);
+
+	const Util::StringAtom GetStringID() const;
 
 	virtual void Clear() = 0;
 
-	Util::StringAtom stringID;
+	virtual void OnActivate() = 0;
 
-	const Util::StringAtom GetStringID() const;
+	virtual void OnReset(InstanceId& id) = 0;
 
 	virtual void OnBeginFrame() = 0;
 
@@ -33,11 +37,17 @@ public:
 
 	virtual void OnEndFrame() = 0;
 
-protected:
+	Util::StringAtom stringID;
 
-	Util::Queue<Entities::Entity> _instanceQueue;
+protected:
+	// tracks number of instances the component has
 	SizeT _numInstances;
+	// keeps track of the highest ID which will be assigned to an instance
 	InstanceId _nextInstanceID;
+	// queue of free instance ID's that can be used
+	Util::Queue<Entities::Entity> _instanceQueue;
+	// maps component instance to owner entity
+	Util::HashTable<Entities::Entity, InstanceId, MaxNumInstances, 1> _instanceMap;
 	
 
 };
