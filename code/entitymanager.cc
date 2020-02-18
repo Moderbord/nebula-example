@@ -50,7 +50,7 @@ namespace Manager
 		// Get index from ArrayStack
 		IndexT index = this->_entities.FindIndex(e);
 		// check if invalid index
-		if (index != -1)
+		if (index != InvalidIndex)
 		{
 			// Remove entity 
 			this->_entities.EraseIndexSwap(index);

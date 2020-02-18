@@ -5,7 +5,7 @@ namespace Component
 {
 
 ComponentInterface::ComponentInterface()
-	: OnBeginFrame(nullptr), OnRender(nullptr), OnEndFrame(nullptr)
+	: _nextInstanceID(0), _numInstances(0)
 {
 
 }

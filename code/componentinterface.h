@@ -1,5 +1,6 @@
 #pragma once
 #include "util/stringatom.h"
+#include "util/queue.h"
 #include "entity.h"
 
 namespace Component {
@@ -26,11 +27,18 @@ public:
 
 	const Util::StringAtom GetStringID() const;
 
-	void (*OnBeginFrame)();
+	virtual void OnBeginFrame() = 0;
 
-	void (*OnRender)();
+	virtual void OnRender() = 0;
 
-	void (*OnEndFrame)();
+	virtual void OnEndFrame() = 0;
+
+protected:
+
+	Util::Queue<Entities::Entity> _instanceQueue;
+	SizeT _numInstances;
+	InstanceId _nextInstanceID;
+	
 
 };
 }

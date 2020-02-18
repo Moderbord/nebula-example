@@ -88,5 +88,16 @@ namespace Manager
 		}
 	}
 
+	//template<typename COMPONENT>
+	//void ComponentManager::RegisterToComponent(Entities::Entity& e)
+	//{
+	//	//// if equal to 0
+	//	//if (!this->_components.Find(COMPONENT))
+	//	//{
+	//	//	this->RegisterComponent(COMPONENT)
+	//	//}
+	//	COMPONENT::
+	//}
+
 
 }

@@ -34,10 +34,14 @@ namespace Manager {
 
 		Component::ComponentInterface* GetComponent(Util::StringAtom& stringID);
 
+		//template<typename COMPONENT>
+		//void RegisterToComponent(Entities::Entity& e);
+
 	private:
 
 		Util::HashTable<Util::StringAtom, Component::ComponentInterface*> _componentTable;
 		Util::Array<Component::ComponentInterface*> _components;
 
 	};
+
 }

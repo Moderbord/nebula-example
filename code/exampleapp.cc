@@ -265,7 +265,29 @@ ExampleApplication::Run()
     const Ptr<Input::Keyboard>& keyboard = inputServer->GetDefaultKeyboard();
     const Ptr<Input::Mouse>& mouse = inputServer->GetDefaultMouse();
 
+	Component::Transform trans = Component::Transform();
+	Manager::ComponentManager::Instance()->RegisterComponent(&trans);
 
+	Entities::Entity ent1 = Manager::EntityManager::Instance()->NewEntity();
+	Entities::Entity ent2 = Manager::EntityManager::Instance()->NewEntity();
+	Entities::Entity ent3 = Manager::EntityManager::Instance()->NewEntity();
+	Entities::Entity ent4 = Manager::EntityManager::Instance()->NewEntity();
+	Entities::Entity ent5 = Manager::EntityManager::Instance()->NewEntity();
+	Entities::Entity ent6 = Manager::EntityManager::Instance()->NewEntity();
+	Entities::Entity ent7 = Manager::EntityManager::Instance()->NewEntity();
+
+	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent1);
+	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent2);
+	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent3);
+	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent4);
+	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent5);
+
+	this->compMgr->GetComponent(Util::StringAtom("transform"))->DeregisterEntity(ent3);
+
+	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent6);
+	// Dream
+	//Manager::ComponentManager::RegisterToComponent<Component::Transform>(ent1);
+	//Manager::ComponentManager::Instance()->RegisterToComponent<"transform">(ent1);
     
     Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
     //// Register entity to various graphics contexts.
