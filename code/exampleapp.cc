@@ -285,6 +285,8 @@ ExampleApplication::Run()
 	this->compMgr->GetComponent(Util::StringAtom("transform"))->DeregisterEntity(ent3);
 
 	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent6);
+	
+	this->compMgr->GetComponent(Util::StringAtom("transform"))->GetInstanceID(ent4);
 	// Dream
 	//Manager::ComponentManager::RegisterToComponent<Component::Transform>(ent1);
 	//Manager::ComponentManager::Instance()->RegisterToComponent<"transform">(ent1);

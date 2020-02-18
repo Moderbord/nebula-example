@@ -7,11 +7,13 @@
 #include "entity.h"
 
 namespace Component {
-
-	// Transform component
+	//------------------------------------------------------------------------------
+	/**
+		Transform component
+	*/
 	class Transform : public ComponentInterface{
 
-
+		const Math::matrix44 _identityMatrix = Math::matrix44::translation(Math::point(0, 0, 0));
 
 	public:
 		Transform();
@@ -25,8 +27,7 @@ namespace Component {
 		void OnEndFrame();
 
 		struct Attributes{
-			Util::ArrayStack<unsigned, sizeof(unsigned) * MaxNumInstances> x;
-			Util::ArrayStack<unsigned, sizeof(unsigned)* MaxNumInstances> y;
+			Util::ArrayStack<Math::matrix44, MaxNumInstances> transform;
 		};
 
 
@@ -55,14 +56,12 @@ namespace Component {
 
 	inline void Transform::OnActivate()
 	{
-		this->_instanceData.x.Append(0);
-		this->_instanceData.y.Append(0);
+		this->_instanceData.transform.Append(_identityMatrix);
 	}
 
 	inline void Transform::OnReset(InstanceId& instance)
 	{
-		this->_instanceData.x[instance] = 0;
-		this->_instanceData.y[instance] = 0;
+		this->_instanceData.transform[instance] = _identityMatrix;
 	}
 
 	inline void Transform::OnBeginFrame()

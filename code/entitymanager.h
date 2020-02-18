@@ -33,7 +33,7 @@ namespace Manager {
 
 	private:
 		// Number of entities?
-		Util::ArrayStack<Entities::Entity, MaxNumEntities * sizeof(Entities::Entity)> _entities;
+		Util::ArrayStack<Entities::Entity, MaxNumEntities> _entities;
 		Util::Queue<Entities::Entity> _idQueue;
 		SizeT _numEntities;
 		Entities::Entity _nextEntity;
