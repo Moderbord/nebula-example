@@ -1,4 +1,5 @@
 #pragma once
+#include "core/singleton.h"
 #include "util/hashtable.h"
 #include "util/stringatom.h"
 #include "util/arraystack.h"
@@ -11,8 +12,9 @@ namespace Component {
 	/**
 		Transform component
 	*/
-	class Transform : public ComponentInterface{
-
+	class Transform : public ComponentInterface
+	{
+		__DeclareSingleton(Component::Transform)
 		const Math::matrix44 _identityMatrix = Math::matrix44::translation(Math::point(0, 0, 0));
 
 	public:
@@ -35,46 +37,5 @@ namespace Component {
 		// Contains the data for each entity in an array
 		Attributes _instanceData;
 	};
-
-	// constructor
-	inline Transform::Transform()
-	{
-		this->stringID = Util::StringAtom("transform");
-	}
-
-	// deconstructor
-	inline Transform::~Transform()
-	{
-		_instanceMap.Clear();
-	}
-
-	// Clears the component from all registered entities
-	inline void Transform::Clear()
-	{
-		this->_instanceMap.Clear();
-	}
-
-	inline void Transform::OnActivate()
-	{
-		this->_instanceData.transform.Append(_identityMatrix);
-	}
-
-	inline void Transform::OnReset(InstanceId& instance)
-	{
-		this->_instanceData.transform[instance] = _identityMatrix;
-	}
-
-	inline void Transform::OnBeginFrame()
-	{
-	}
-
-	inline void Transform::OnRender()
-	{
-	}
-
-	inline void Transform::OnEndFrame()
-	{
-	}
-
 }
 

@@ -34,8 +34,6 @@
 #include "profiling/profiling.h"
 
 
-
-
 #ifdef __WIN32__
 #include <shellapi.h>
 #elif __LINUX__
@@ -266,8 +264,9 @@ ExampleApplication::Run()
     const Ptr<Input::Mouse>& mouse = inputServer->GetDefaultMouse();
 
 	Component::Transform trans = Component::Transform();
-	Manager::ComponentManager::Instance()->RegisterComponent(&trans);
 
+	p_RegisterComponent(Component::Transform::Instance());
+	
 	Entities::Entity ent1 = Manager::EntityManager::Instance()->NewEntity();
 	Entities::Entity ent2 = Manager::EntityManager::Instance()->NewEntity();
 	Entities::Entity ent3 = Manager::EntityManager::Instance()->NewEntity();
@@ -287,8 +286,11 @@ ExampleApplication::Run()
 	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent6);
 	
 	this->compMgr->GetComponent(Util::StringAtom("transform"))->GetInstanceID(ent4);
+	
+	Component::Register<Component::Transform>(ent7);
+	
 	// Dream
-	//Manager::ComponentManager::RegisterToComponent<Component::Transform>(ent1);
+	//Manager::ComponentManager::Instance()->RegisterToComponent<Component::Transform>(ent7);
 	//Manager::ComponentManager::Instance()->RegisterToComponent<"transform">(ent1);
     
     Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();

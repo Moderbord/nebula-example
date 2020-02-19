@@ -3,6 +3,10 @@
 #include "util/queue.h"
 #include "entity.h"
 
+#define p_RegisterComponent(COMPONENT) \
+	Manager::ComponentManager::Instance()->RegisterComponent(COMPONENT);
+
+
 namespace Component {
 
 	typedef unsigned InstanceId;
@@ -48,7 +52,12 @@ protected:
 	Util::Queue<Entities::Entity> _instanceQueue;
 	// maps component instance to owner entity
 	Util::HashTable<Entities::Entity, InstanceId, MaxNumInstances, 1> _instanceMap;
-	
-
 };
+
+template<typename COMPONENT>
+InstanceId Register(Entities::Entity& e)
+{
+	return COMPONENT::Instance()->RegisterEntity(e);
+}
+
 }

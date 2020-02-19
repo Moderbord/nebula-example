@@ -25,7 +25,6 @@
 
 #include "componentmanager.h"
 #include "entitymanager.h"
-#include "componentinterface.h"
 #include "component.h"
 
 namespace Example

@@ -37,8 +37,5 @@ namespace Manager {
 		Util::Queue<Entities::Entity> _idQueue;
 		SizeT _numEntities;
 		Entities::Entity _nextEntity;
-		
-
-
 	};
 }

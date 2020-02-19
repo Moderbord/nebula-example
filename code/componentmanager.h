@@ -6,7 +6,7 @@
 #include "util/hashtable.h"
 #include "util/stringatom.h"
 #include "entity.h"
-#include "componentinterface.h"
+#include "component.h"
 
 namespace Manager {
 
@@ -16,7 +16,6 @@ namespace Manager {
 	{
 		__DeclareClass(Manager::ComponentManager)
 		__DeclareSingleton(Manager::ComponentManager)
-
 
 	public:
 		// constructor
@@ -34,8 +33,7 @@ namespace Manager {
 
 		Component::ComponentInterface* GetComponent(Util::StringAtom& stringID);
 
-		//template<typename COMPONENT>
-		//void RegisterToComponent(Entities::Entity& e);
+		Component::ComponentInterface* GetComponent(Component::ComponentInterface* component);
 
 	private:
 
