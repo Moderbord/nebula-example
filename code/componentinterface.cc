@@ -23,10 +23,12 @@ InstanceId ComponentInterface::RegisterEntity(Entities::Entity& e)
 	// If queue isn't empty
 	if (!this->_instanceQueue.IsEmpty())
 	{
+		// pull from queue
 		InstanceId id = this->_instanceQueue.Dequeue();
+		// map entity with queued instance
 		this->_instanceMap.Add(e, id);
 		this->_numInstances++;
-		// reset target instance data
+		// reset queued instance data
 		this->OnReset(id);
 		return id;
 	}
@@ -39,7 +41,7 @@ InstanceId ComponentInterface::RegisterEntity(Entities::Entity& e)
 	// increment num instances
 	this->_numInstances++;
 	// initiates components variabels
-	this->OnActivate();
+	this->OnRegister();
 	return id;
 }
 

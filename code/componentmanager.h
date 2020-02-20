@@ -33,8 +33,6 @@ namespace Manager {
 
 		Component::ComponentInterface* GetComponent(Util::StringAtom& stringID);
 
-		Component::ComponentInterface* GetComponent(Component::ComponentInterface* component);
-
 	private:
 
 		Util::HashTable<Util::StringAtom, Component::ComponentInterface*> _componentTable;

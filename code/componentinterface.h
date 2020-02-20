@@ -29,9 +29,7 @@ public:
 
 	const Util::StringAtom GetStringID() const;
 
-	virtual void Clear() = 0;
-
-	virtual void OnActivate() = 0;
+	virtual void OnRegister() = 0;
 
 	virtual void OnReset(InstanceId& id) = 0;
 
@@ -40,6 +38,10 @@ public:
 	virtual void OnRender() = 0;
 
 	virtual void OnEndFrame() = 0;
+
+	virtual void Clear() = 0;
+
+	virtual void OnDestroy() = 0;
 
 	Util::StringAtom stringID;
 
@@ -59,5 +61,29 @@ InstanceId Register(Entities::Entity& e)
 {
 	return COMPONENT::Instance()->RegisterEntity(e);
 }
+
+template<typename COMPONENT>
+void Deregister(Entities::Entity& e)
+{
+	return COMPONENT::Instance()->DeregisterEntity(e);
+}
+
+template<typename COMPONENT>
+bool IsRegistered(Entities::Entity& e)
+{
+	return COMPONENT::Instance()->IsRegistered(e);
+}
+
+template<typename COMPONENT>
+InstanceId GetInstanceID(Entities::Entity& e)
+{
+	return COMPONENT::Instance()->GetInstanceID(e);
+}
+
+//template<typename COMPONENT>
+//void SendMeme(Message::Msg, Entities::Entity& e);
+//{
+//
+//}
 
 }

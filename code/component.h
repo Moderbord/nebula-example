@@ -21,15 +21,47 @@ namespace Component {
 		Transform();
 		~Transform();
 
-		void Clear();
-		void OnActivate();
+		void OnRegister();
 		void OnReset(InstanceId& instance);
 		void OnBeginFrame();
 		void OnRender();
 		void OnEndFrame();
+		void Clear();
+		void OnDestroy();
 
 		struct Attributes{
 			Util::ArrayStack<Math::matrix44, MaxNumInstances> transform;
+		};
+
+		Math::matrix44* GetTransform(Entities::Entity& entity);
+		void SetTransform(Entities::Entity& entity, Math::matrix44 transform);
+
+	private:
+		// Contains the data for each entity in an array
+		Attributes _instanceData;
+	};
+
+	//------------------------------------------------------------------------------
+	/**
+		Graphic component
+	*/
+	class Graphic : public ComponentInterface
+	{
+		__DeclareSingleton(Component::Graphic)
+
+	public:
+		Graphic();
+		~Graphic();
+
+		void OnRegister();
+		void OnReset(InstanceId& instance);
+		void OnBeginFrame();
+		void OnRender();
+		void OnEndFrame();
+		void Clear();
+		void OnDestroy();
+
+		struct Attributes {
 		};
 
 

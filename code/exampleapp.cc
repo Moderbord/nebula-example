@@ -265,34 +265,34 @@ ExampleApplication::Run()
 
 	Component::Transform trans = Component::Transform();
 
-	p_RegisterComponent(Component::Transform::Instance());
+	p_RegisterComponent(&trans);
 	
-	Entities::Entity ent1 = Manager::EntityManager::Instance()->NewEntity();
-	Entities::Entity ent2 = Manager::EntityManager::Instance()->NewEntity();
-	Entities::Entity ent3 = Manager::EntityManager::Instance()->NewEntity();
-	Entities::Entity ent4 = Manager::EntityManager::Instance()->NewEntity();
-	Entities::Entity ent5 = Manager::EntityManager::Instance()->NewEntity();
-	Entities::Entity ent6 = Manager::EntityManager::Instance()->NewEntity();
-	Entities::Entity ent7 = Manager::EntityManager::Instance()->NewEntity();
+	Entities::Entity ent1 = p_NewEntity();
+	Entities::Entity ent2 = p_NewEntity();
+	Entities::Entity ent3 = p_NewEntity();
+	Entities::Entity ent4 = p_NewEntity();
+	Entities::Entity ent5 = p_NewEntity();
+	Entities::Entity ent6 = p_NewEntity();
+	Entities::Entity ent7 = p_NewEntity();
 
-	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent1);
-	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent2);
-	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent3);
-	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent4);
-	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent5);
+	Component::Register<Component::Transform>(ent1);
+	Component::Register<Component::Transform>(ent2);
+	Component::Register<Component::Transform>(ent3);
+	Component::Register<Component::Transform>(ent4);
+	Component::Register<Component::Transform>(ent5);
 
-	this->compMgr->GetComponent(Util::StringAtom("transform"))->DeregisterEntity(ent3);
+	Component::Deregister<Component::Transform>(ent3);
 
-	Manager::ComponentManager::Instance()->GetComponent(Util::StringAtom("transform"))->RegisterEntity(ent6);
+	Component::Register<Component::Transform>(ent6);
 	
-	this->compMgr->GetComponent(Util::StringAtom("transform"))->GetInstanceID(ent4);
+	Component::GetInstanceID<Component::Transform>(ent4);
 	
 	Component::Register<Component::Transform>(ent7);
-	
-	// Dream
-	//Manager::ComponentManager::Instance()->RegisterToComponent<Component::Transform>(ent7);
-	//Manager::ComponentManager::Instance()->RegisterToComponent<"transform">(ent1);
+
+	Component::Transform::Instance()->GetTransform(ent3);
     
+
+
     Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
     //// Register entity to various graphics contexts.
     // The template parameters are which contexts that the entity should be registered to.

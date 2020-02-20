@@ -87,8 +87,4 @@ namespace Manager
 			it++;
 		}
 	}
-	Component::ComponentInterface* ComponentManager::GetComponent(Component::ComponentInterface* component)
-	{
-		return *this->_components.Find(component);
-	}
 }
