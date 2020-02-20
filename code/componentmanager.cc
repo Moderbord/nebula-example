@@ -71,6 +71,22 @@ namespace Manager
 		}
 	}
 
+	void ComponentManager::OnBeginFrame()
+	{
+		for (Component::ComponentInterface* component : this->_components)
+		{
+			component->OnBeginFrame();
+		}
+	}
+
+	void ComponentManager::OnRender()
+	{
+		for (Component::ComponentInterface* component : this->_components)
+		{
+			component->OnRender();
+		}
+	}
+
 	Component::ComponentInterface* ComponentManager::GetComponent(const Util::StringAtom& stringID)
 	{
 		auto it = this->_componentTable.Begin();
@@ -87,4 +103,7 @@ namespace Manager
 			it++;
 		}
 	}
+
+
+
 }

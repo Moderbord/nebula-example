@@ -272,8 +272,22 @@ ExampleApplication::Run()
 	Entities::Entity ent1 = p_NewEntity();
 	Component::Register<Component::Transform>(ent1);
 	Component::Register<Component::Graphic>(ent1);
-
 	Component::Graphic::Instance()->Setup(ent1);
+	Component::Transform::Instance()->SetTransform(ent1, Math::matrix44::translation(Math::point(3, 5, 0)));
+
+	Entities::Entity ent2 = p_NewEntity();
+	Component::Register<Component::Transform>(ent2);
+	Component::Register<Component::Graphic>(ent2);
+	Component::Graphic::Instance()->Setup(ent2);
+
+	Entities::Entity ent3 = p_NewEntity();
+	Component::Register<Component::Transform>(ent3);
+	Component::Register<Component::Graphic>(ent3);
+	Component::Graphic::Instance()->SetResourceName(ent3, "mdl:Units/Unit_Footman.n3");
+	Component::Graphic::Instance()->SetSkeleton(ent3, "ske:Units/Unit_Footman.nsk3");
+	Component::Graphic::Instance()->SetAnimation(ent3, "ani:Units/Unit_Footman.nax3");
+	Component::Graphic::Instance()->SetupAnimated(ent3);
+	Component::Graphic::Instance()->PlayAnimated(ent3);
 
 
 
@@ -291,17 +305,17 @@ ExampleApplication::Run()
     //ObservableContext::Setup(exampleEntity, VisibilityEntityType::Model);
 
     //// Example animated entity
-    Graphics::GraphicsEntityId animatedEntity = Graphics::CreateEntity();
-    // The CharacterContext holds skinned, animated entites and takes care of playing animations etc.
-    Graphics::RegisterEntity<ModelContext, ObservableContext, Characters::CharacterContext>(animatedEntity);
-    // create model and move it to the front
-    ModelContext::Setup(animatedEntity, "mdl:Units/Unit_Footman.n3", "Examples");
-    ModelContext::SetTransform(animatedEntity, Math::matrix44::translation(Math::point(5, 0, 0)));
-    ObservableContext::Setup(animatedEntity, VisibilityEntityType::Model);
-    // Setup the character context instance.
-    // nsk3 is the skeleton resource, nax3 is the animation resource. nax3 files can contain multiple animation clips
-    Characters::CharacterContext::Setup(animatedEntity, "ske:Units/Unit_Footman.nsk3", "ani:Units/Unit_Footman.nax3", "Examples");
-    Characters::CharacterContext::PlayClip(animatedEntity, nullptr, 0, 0, Characters::Append, 1.0f, 1, Math::n_rand() * 100.0f, 0.0f, 0.0f, Math::n_rand() * 100.0f);
+    //Graphics::GraphicsEntityId animatedEntity = Graphics::CreateEntity();
+    //// The CharacterContext holds skinned, animated entites and takes care of playing animations etc.
+    //Graphics::RegisterEntity<ModelContext, ObservableContext, Characters::CharacterContext>(animatedEntity);
+    //// create model and move it to the front
+    //ModelContext::Setup(animatedEntity, "mdl:Units/Unit_Footman.n3", "Examples");
+    //ModelContext::SetTransform(animatedEntity, Math::matrix44::translation(Math::point(5, 0, 0)));
+    //ObservableContext::Setup(animatedEntity, VisibilityEntityType::Model);
+    //// Setup the character context instance.
+    //// nsk3 is the skeleton resource, nax3 is the animation resource. nax3 files can contain multiple animation clips
+    //Characters::CharacterContext::Setup(animatedEntity, "ske:Units/Unit_Footman.nsk3", "ani:Units/Unit_Footman.nax3", "Examples");
+    //Characters::CharacterContext::PlayClip(animatedEntity, nullptr, 0, 0, Characters::Append, 1.0f, 1, Math::n_rand() * 100.0f, 0.0f, 0.0f, Math::n_rand() * 100.0f);
 
     // Create a point light entity
     Graphics::GraphicsEntityId pointLight = Graphics::CreateEntity();
@@ -328,6 +342,8 @@ ExampleApplication::Run()
 		this->gfxServer->BeginFrame();
         
 		// put game code which doesn't need visibility data or animation here
+
+		this->compMgr->OnBeginFrame(); // p
 
         this->gfxServer->BeforeViews();
         

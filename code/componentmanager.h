@@ -31,7 +31,12 @@ namespace Manager {
 
 		bool HasComponentByStringID(const Util::StringAtom& stringID);
 
+		void OnBeginFrame();
+
+		void OnRender();
+
 		Component::ComponentInterface* GetComponent(const Util::StringAtom& stringID);
+
 
 	private:
 

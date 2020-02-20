@@ -33,10 +33,12 @@ namespace Component {
 
 	inline void Transform::OnBeginFrame()
 	{
+
 	}
 
 	inline void Transform::OnRender()
 	{
+		// TODO stuff
 	}
 
 	inline void Transform::OnEndFrame()
@@ -54,10 +56,10 @@ namespace Component {
 		this->~Transform();
 	}
 
-	Math::matrix44* Transform::GetTransform(Entities::Entity& entity)
+	Math::matrix44 Transform::GetTransform(Entities::Entity& entity)
 	{
 		InstanceId instance = this->_instanceMap[entity];
-		return &this->_instanceData.transform[instance];
+		return this->_instanceData.transform[instance];
 	}
 
 	void Transform::SetTransform(Entities::Entity& entity, Math::matrix44 transform)
