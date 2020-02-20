@@ -68,6 +68,15 @@ namespace Component {
 
 	inline void Graphic::OnRender()
 	{
+		Entities::Entity ent = 3;
+		Math::matrix44 transform = Component::Transform::Instance()->GetTransform(ent);
+		transform.translate(Math::float4(0, 0, 0.1, 0));
+		Component::Transform::Instance()->SetTransform(ent, transform);
+
+		Entities::Entity ent2 = 1;
+		Math::matrix44 transform2 = Component::Transform::Instance()->GetTransform(ent2);
+		transform2.translate(Math::float4(0, 0, 0.05, 0));
+		Component::Transform::Instance()->SetTransform(ent2, transform2);
 	}
 
 	inline void Graphic::OnEndFrame()

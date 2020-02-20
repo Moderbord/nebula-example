@@ -272,12 +272,14 @@ ExampleApplication::Run()
 	Entities::Entity ent1 = p_NewEntity();
 	Component::Register<Component::Transform>(ent1);
 	Component::Register<Component::Graphic>(ent1);
+	Component::Graphic::Instance()->SetResourceName(ent1, "mdl:Units/Unit_Footman.n3");
 	Component::Graphic::Instance()->Setup(ent1);
 	Component::Transform::Instance()->SetTransform(ent1, Math::matrix44::translation(Math::point(3, 5, 0)));
 
 	Entities::Entity ent2 = p_NewEntity();
 	Component::Register<Component::Transform>(ent2);
 	Component::Register<Component::Graphic>(ent2);
+	Component::Graphic::Instance()->SetResourceName(ent2, "mdl:environment/groundplane.n3");
 	Component::Graphic::Instance()->Setup(ent2);
 
 	Entities::Entity ent3 = p_NewEntity();
@@ -343,9 +345,9 @@ ExampleApplication::Run()
         
 		// put game code which doesn't need visibility data or animation here
 
-		this->compMgr->OnBeginFrame(); // p
-
         this->gfxServer->BeforeViews();
+
+		this->compMgr->OnBeginFrame(); // p
         
 		this->RenderUI();             
 
@@ -356,6 +358,8 @@ ExampleApplication::Run()
         
         // put game code which need visibility data here
         this->gfxServer->RenderViews();
+
+		this->compMgr->OnRender();
 
         // put game code which needs rendering to be done (animation etc) here
         this->gfxServer->EndViews();
