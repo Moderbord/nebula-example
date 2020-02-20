@@ -264,47 +264,31 @@ ExampleApplication::Run()
     const Ptr<Input::Mouse>& mouse = inputServer->GetDefaultMouse();
 
 	Component::Transform trans = Component::Transform();
+	Component::Graphic graphic = Component::Graphic();
 
 	p_RegisterComponent(&trans);
+	p_RegisterComponent(&graphic);
 	
 	Entities::Entity ent1 = p_NewEntity();
-	Entities::Entity ent2 = p_NewEntity();
-	Entities::Entity ent3 = p_NewEntity();
-	Entities::Entity ent4 = p_NewEntity();
-	Entities::Entity ent5 = p_NewEntity();
-	Entities::Entity ent6 = p_NewEntity();
-	Entities::Entity ent7 = p_NewEntity();
-
 	Component::Register<Component::Transform>(ent1);
-	Component::Register<Component::Transform>(ent2);
-	Component::Register<Component::Transform>(ent3);
-	Component::Register<Component::Transform>(ent4);
-	Component::Register<Component::Transform>(ent5);
+	Component::Register<Component::Graphic>(ent1);
 
-	Component::Deregister<Component::Transform>(ent3);
-
-	Component::Register<Component::Transform>(ent6);
-	
-	Component::GetInstanceID<Component::Transform>(ent4);
-	
-	Component::Register<Component::Transform>(ent7);
-
-	Component::Transform::Instance()->GetTransform(ent3);
-    
+	Component::Graphic::Instance()->Setup(ent1);
 
 
-    Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
-    //// Register entity to various graphics contexts.
-    // The template parameters are which contexts that the entity should be registered to.
-    // ModelContext takes care of loading models and also handles transforms for instances of models.
-    // Registering an entity to the ObservableContext will allow cameras to observe the entity (adds the entity to visibility culling system)
-    Graphics::RegisterEntity<ModelContext, ObservableContext>(exampleEntity);
-    // Setup the entitys model instance
-    ModelContext::Setup(exampleEntity, "mdl:environment/groundplane.n3", "Examples");
-    // Set the transform of the entity
-    ModelContext::SetTransform(exampleEntity, Math::matrix44::translation(Math::point(0, 0, 0)));
-    // Setup the observable as a model
-    ObservableContext::Setup(exampleEntity, VisibilityEntityType::Model);
+
+    //Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
+    ////// Register entity to various graphics contexts.
+    //// The template parameters are which contexts that the entity should be registered to.
+    //// ModelContext takes care of loading models and also handles transforms for instances of models.
+    //// Registering an entity to the ObservableContext will allow cameras to observe the entity (adds the entity to visibility culling system)
+    //Graphics::RegisterEntity<ModelContext, ObservableContext>(exampleEntity);
+    //// Setup the entitys model instance
+    //ModelContext::Setup(exampleEntity, "mdl:environment/groundplane.n3", "Examples");
+    //// Set the transform of the entity
+    //ModelContext::SetTransform(exampleEntity, Math::matrix44::translation(Math::point(0, 0, 0)));
+    //// Setup the observable as a model
+    //ObservableContext::Setup(exampleEntity, VisibilityEntityType::Model);
 
     //// Example animated entity
     Graphics::GraphicsEntityId animatedEntity = Graphics::CreateEntity();

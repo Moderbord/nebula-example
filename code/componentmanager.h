@@ -29,9 +29,9 @@ namespace Manager {
 
 		bool HasComponent(Component::ComponentInterface* component);
 
-		bool HasComponentByStringID(Util::StringAtom& stringID);
+		bool HasComponentByStringID(const Util::StringAtom& stringID);
 
-		Component::ComponentInterface* GetComponent(Util::StringAtom& stringID);
+		Component::ComponentInterface* GetComponent(const Util::StringAtom& stringID);
 
 	private:
 

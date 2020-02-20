@@ -54,7 +54,7 @@ namespace Manager
 		return index != InvalidIndex;
 	}
 
-	bool ComponentManager::HasComponentByStringID(Util::StringAtom& stringID)
+	bool ComponentManager::HasComponentByStringID(const Util::StringAtom& stringID)
 	{
 		auto it = this->_componentTable.Begin();
 		while (true)
@@ -71,7 +71,7 @@ namespace Manager
 		}
 	}
 
-	Component::ComponentInterface* ComponentManager::GetComponent(Util::StringAtom& stringID)
+	Component::ComponentInterface* ComponentManager::GetComponent(const Util::StringAtom& stringID)
 	{
 		auto it = this->_componentTable.Begin();
 		while (true)
