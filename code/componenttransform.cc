@@ -1,6 +1,15 @@
 #pragma once
 #include "component.h"
 
+/*
+	Transform component
+
+	TODO add some comments
+	TODO add some const
+	TODO handle fragmantation
+	TODO handle deregistration
+*/
+
 namespace Component {
 
 	struct Attributes;

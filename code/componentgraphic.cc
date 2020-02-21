@@ -1,6 +1,12 @@
 #pragma once
 #include "component.h"
 
+
+/*
+	Graphical component
+
+	TODO see component.h
+*/
 namespace Component {
 
 	struct Attributes;

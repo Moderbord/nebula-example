@@ -6,6 +6,9 @@
 #include "util/queue.h"
 #include "entity.h"
 
+/*
+	Header file for entity manager
+*/
 namespace Manager {
 
 	const SizeT MaxNumEntities = 256;

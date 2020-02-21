@@ -28,8 +28,6 @@ namespace Message
 		// destructor
 		~MessageManager();
 
-
-
 	private:
 	};
 		

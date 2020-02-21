@@ -7,7 +7,11 @@
 #define p_RegisterComponent(COMPONENT) \
 	Manager::ComponentManager::Instance()->RegisterComponent(COMPONENT);
 
+/*
+	Header for component interface
 
+	TODO add some const
+*/
 namespace Component {
 
 	typedef unsigned InstanceId;
@@ -83,6 +87,7 @@ InstanceId GetInstanceID(Entities::Entity& e)
 	return COMPONENT::Instance()->GetInstanceID(e);
 }
 
+// TODO try this one
 template<typename COMPONENT>
 void Message(Entities::Entity& entity, Message::Type& type)
 {

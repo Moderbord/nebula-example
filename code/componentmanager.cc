@@ -2,6 +2,13 @@
 #include "application/stdneb.h"
 #include "componentmanager.h"
 
+
+/*
+	Component manager
+
+	TODO add some const
+	TODO add some comments
+*/
 namespace Manager
 {
 	__ImplementClass(Manager::ComponentManager, 'CMGR', Core::RefCounted)

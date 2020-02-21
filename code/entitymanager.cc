@@ -2,6 +2,12 @@
 #include "application/stdneb.h"
 #include "entitymanager.h"
 
+
+/*
+	Entity manager. Handles creation, deletion and recycling of entity Id's
+
+	TODO not much
+*/
 namespace Manager
 {
 	__ImplementClass(Manager::EntityManager, 'EMGR', Core::RefCounted)

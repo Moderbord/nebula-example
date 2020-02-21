@@ -9,6 +9,12 @@
 #include "component.h"
 #include "message.h"
 
+/*
+	Header for component manager
+
+	TODO add some consts
+	TODO add some comments
+*/
 namespace Manager {
 
 	const SizeT MaxNumComponents = 256;

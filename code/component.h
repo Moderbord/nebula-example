@@ -7,6 +7,14 @@
 #include "componentinterface.h"
 #include "entity.h"
 
+/*
+	Header file for all components
+
+	TODO change from ArrayStack to Array
+	TODO handle fragmantation
+	TODO add method to retreive owner of instance (entity)
+	TODO add const to methods
+*/
 namespace Component {
 	//------------------------------------------------------------------------------
 	/**

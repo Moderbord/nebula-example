@@ -1,6 +1,12 @@
 #pragma once
 #include "componentinterface.h"
 
+
+/*
+	Component interface which all components derive from
+
+	TODO change the way to search for entities and their component values?
+*/
 namespace Component
 {
 
