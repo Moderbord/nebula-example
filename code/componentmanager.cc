@@ -104,6 +104,14 @@ namespace Manager
 		}
 	}
 
+	void ComponentManager::RelayMessage(const Entities::Entity& entity, const Message::Type& type) const
+	{
+		for (Component::ComponentInterface* component : this->_components)
+		{
+			component->OnMessage(entity, type);
+		}
+	}
+
 
 
 }

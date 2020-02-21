@@ -23,7 +23,7 @@
 #include "core/coreserver.h"
 #include "io/iointerface.h"
 
-#include "componentmanager.h"
+#include "messagemanager.h"
 #include "entitymanager.h"
 #include "component.h"
 

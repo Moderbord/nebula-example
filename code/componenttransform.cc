@@ -56,13 +56,17 @@ namespace Component {
 		this->~Transform();
 	}
 
-	Math::matrix44 Transform::GetTransform(Entities::Entity& entity)
+	void Transform::OnMessage(const Entities::Entity& entity, const Message::Type& type)
+	{
+	}
+
+	Math::matrix44 Transform::GetTransform(const Entities::Entity& entity)
 	{
 		InstanceId instance = this->_instanceMap[entity];
 		return this->_instanceData.transform[instance];
 	}
 
-	void Transform::SetTransform(Entities::Entity& entity, Math::matrix44 transform)
+	void Transform::SetTransform(const Entities::Entity& entity, Math::matrix44 transform)
 	{
 		InstanceId instance = this->_instanceMap[entity];
 		this->_instanceData.transform[instance] = transform;

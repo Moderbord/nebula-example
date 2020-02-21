@@ -26,6 +26,9 @@ nebula_begin_app(nebula-example windowed)
 			component.h
 			componenttransform.cc
 			componentgraphic.cc
+			messagemanager.cc
+			messagemanager.h
+			message.h
         )
 
     fips_deps(foundation render resource dynui scripting)

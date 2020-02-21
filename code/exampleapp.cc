@@ -32,6 +32,7 @@
 #include "io/fswrapper.h"
 #include "system/nebulasettings.h"
 #include "profiling/profiling.h"
+#include "debug/framescriptinspector.h"
 
 
 #ifdef __WIN32__
@@ -270,19 +271,23 @@ ExampleApplication::Run()
 	p_RegisterComponent(&graphic);
 	
 	Entities::Entity ent1 = p_NewEntity();
+	Entities::Entity ent2 = p_NewEntity();
+	Entities::Entity ent3 = p_NewEntity();
+
 	Component::Register<Component::Transform>(ent1);
 	Component::Register<Component::Graphic>(ent1);
-	Component::Graphic::Instance()->SetResourceName(ent1, "mdl:Units/Unit_Footman.n3");
+	Component::Graphic::Instance()->SetResourceName(ent1, "mdl:Units/Unit_Dragon.n3");
 	Component::Graphic::Instance()->Setup(ent1);
-	Component::Transform::Instance()->SetTransform(ent1, Math::matrix44::translation(Math::point(3, 5, 0)));
 
-	Entities::Entity ent2 = p_NewEntity();
+	Math::matrix44 transMat = Math::matrix44::translation(Math::point(3, 5, 0));
+	transMat = transMat.rotationx(Math::scalar(-1.6));
+	Component::Transform::Instance()->SetTransform(ent1, transMat);
+
 	Component::Register<Component::Transform>(ent2);
 	Component::Register<Component::Graphic>(ent2);
 	Component::Graphic::Instance()->SetResourceName(ent2, "mdl:environment/groundplane.n3");
 	Component::Graphic::Instance()->Setup(ent2);
 
-	Entities::Entity ent3 = p_NewEntity();
 	Component::Register<Component::Transform>(ent3);
 	Component::Register<Component::Graphic>(ent3);
 	Component::Graphic::Instance()->SetResourceName(ent3, "mdl:Units/Unit_Footman.n3");
@@ -291,7 +296,9 @@ ExampleApplication::Run()
 	Component::Graphic::Instance()->SetupAnimated(ent3);
 	Component::Graphic::Instance()->PlayAnimated(ent3);
 
+	Component::Deregister<Component::Graphic>(ent2);
 
+	//Message::Send(ent1, Message::Type::msg);
 
     //Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
     ////// Register entity to various graphics contexts.
@@ -358,7 +365,7 @@ ExampleApplication::Run()
         
         // put game code which need visibility data here
         this->gfxServer->RenderViews();
-
+		
 		this->compMgr->OnRender();
 
         // put game code which needs rendering to be done (animation etc) here
@@ -424,6 +431,8 @@ ExampleApplication::RenderUI()
     ImGui::Checkbox("Debug Rendering", &this->renderDebug);
     
     ImGui::End();
+
+	Debug::FrameScriptInspector::Run(this->view->GetFrameScript());
 }
 
 //------------------------------------------------------------------------------
@@ -447,6 +456,9 @@ ExampleApplication::UpdateCamera()
     if (keyboard->KeyDown(Input::Key::Space))
     {
         this->mayaCameraUtil.Reset();
+
+		Entities::Entity ent = 1;
+		Message::Send(ent, Message::Type::MEMEFY);
     }
     if (keyboard->KeyPressed(Input::Key::Left))
     {

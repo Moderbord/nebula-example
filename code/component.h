@@ -28,13 +28,14 @@ namespace Component {
 		void OnEndFrame();
 		void Clear();
 		void OnDestroy();
+		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
 
 		struct Attributes{
 			Util::ArrayStack<Math::matrix44, MaxNumInstances> transform;
 		};
 
-		Math::matrix44 GetTransform(Entities::Entity& entity);
-		void SetTransform(Entities::Entity& entity, Math::matrix44 transform);
+		Math::matrix44 GetTransform(const Entities::Entity& entity);
+		void SetTransform(const Entities::Entity& entity, Math::matrix44 transform);
 
 	private:
 		// Contains the data for each entity in an array
@@ -60,6 +61,7 @@ namespace Component {
 		void OnEndFrame();
 		void Clear();
 		void OnDestroy();
+		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
 
 		struct Attributes {
 			Util::ArrayStack<Graphics::GraphicsEntityId, MaxNumInstances> graphicId;

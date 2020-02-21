@@ -15,7 +15,7 @@ ComponentInterface::~ComponentInterface()
 
 }
 
-InstanceId ComponentInterface::RegisterEntity(Entities::Entity& e)
+InstanceId ComponentInterface::RegisterEntity(const Entities::Entity& e)
 {
 	// check if entity already isn't registered
 	n_assert(!this->_instanceMap.Contains(e));
@@ -45,7 +45,7 @@ InstanceId ComponentInterface::RegisterEntity(Entities::Entity& e)
 	return id;
 }
 
-void ComponentInterface::DeregisterEntity(Entities::Entity& e)
+void ComponentInterface::DeregisterEntity(const Entities::Entity& e)
 {
 	// check if entity is registered
 	auto it = this->_instanceMap.Begin();
@@ -68,12 +68,12 @@ void ComponentInterface::DeregisterEntity(Entities::Entity& e)
 	}
 }
 
-bool ComponentInterface::IsRegistered(Entities::Entity& e)
+bool ComponentInterface::IsRegistered(const Entities::Entity& e)
 {
 	return this->_instanceMap.Contains(e);
 }
 
-InstanceId ComponentInterface::GetInstanceID(Entities::Entity& e)
+InstanceId ComponentInterface::GetInstanceID(const Entities::Entity& e)
 {
 	n_assert(this->_instanceMap.Contains(e));
 	return this->_instanceMap[e];

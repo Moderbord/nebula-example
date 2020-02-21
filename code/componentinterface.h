@@ -2,6 +2,7 @@
 #include "util/stringatom.h"
 #include "util/queue.h"
 #include "entity.h"
+#include "message.h"
 
 #define p_RegisterComponent(COMPONENT) \
 	Manager::ComponentManager::Instance()->RegisterComponent(COMPONENT);
@@ -19,13 +20,13 @@ public:
 	ComponentInterface();
 	~ComponentInterface();
 
-	InstanceId RegisterEntity(Entities::Entity& e);
+	InstanceId RegisterEntity(const Entities::Entity& e);
 
-	void DeregisterEntity(Entities::Entity& e);
+	void DeregisterEntity(const Entities::Entity& e);
 
-	bool IsRegistered(Entities::Entity& e);
+	bool IsRegistered(const Entities::Entity& e);
 
-	InstanceId GetInstanceID(Entities::Entity& e);
+	InstanceId GetInstanceID(const Entities::Entity& e);
 
 	const Util::StringAtom GetStringID() const;
 
@@ -42,6 +43,8 @@ public:
 	virtual void Clear() = 0;
 
 	virtual void OnDestroy() = 0;
+
+	virtual void OnMessage(const Entities::Entity& entity, const Message::Type& type) = 0;
 
 	Util::StringAtom stringID;
 
@@ -80,10 +83,10 @@ InstanceId GetInstanceID(Entities::Entity& e)
 	return COMPONENT::Instance()->GetInstanceID(e);
 }
 
-//template<typename COMPONENT>
-//void SendMeme(Message::Msg, Entities::Entity& e);
-//{
-//
-//}
+template<typename COMPONENT>
+void Message(Entities::Entity& entity, Message::Type& type)
+{
+	COMPONENT::Instance()->OnMessage(entity, type);
+}
 
 }

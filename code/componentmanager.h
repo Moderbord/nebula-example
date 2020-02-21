@@ -7,6 +7,7 @@
 #include "util/stringatom.h"
 #include "entity.h"
 #include "component.h"
+#include "message.h"
 
 namespace Manager {
 
@@ -36,6 +37,8 @@ namespace Manager {
 		void OnRender();
 
 		Component::ComponentInterface* GetComponent(const Util::StringAtom& stringID);
+
+		void RelayMessage(const Entities::Entity& entity, const Message::Type& type) const;
 
 
 	private:

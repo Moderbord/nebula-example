@@ -47,7 +47,7 @@ namespace Component {
 		auto it = this->_instanceMap.Begin();
 		while (true)
 		{
-			if (it.val != nullptr) // TODO better
+			if (it.key != nullptr) // TODO better
 			{
 				// Get graphicId
 				Graphics::GraphicsEntityId graphicId = this->_instanceData.graphicId[*it.val];
@@ -73,10 +73,10 @@ namespace Component {
 		transform.translate(Math::float4(0, 0, 0.1, 0));
 		Component::Transform::Instance()->SetTransform(ent, transform);
 
-		Entities::Entity ent2 = 1;
-		Math::matrix44 transform2 = Component::Transform::Instance()->GetTransform(ent2);
-		transform2.translate(Math::float4(0, 0, 0.05, 0));
-		Component::Transform::Instance()->SetTransform(ent2, transform2);
+		//Entities::Entity ent2 = 1;
+		//Math::matrix44 transform2 = Component::Transform::Instance()->GetTransform(ent2);
+		//transform2.translate(Math::float4(0, 0, 0.05, 0));
+		//Component::Transform::Instance()->SetTransform(ent2, transform2);
 	}
 
 	inline void Graphic::OnEndFrame()
@@ -92,6 +92,36 @@ namespace Component {
 	{
 		// TODO more?
 		this->~Graphic();
+	}
+
+	void Graphic::OnMessage(const Entities::Entity& entity, const Message::Type& msgType)
+	{
+		auto it = this->_instanceMap.Begin();
+		while (true)
+		{
+			if (it.key != nullptr && *it.key == entity)
+			{
+				// Map entity to instance
+				InstanceId instance = *it.val;
+				switch (msgType)
+				{
+				case Message::Type::DESTROY:
+					this->DeregisterEntity(entity);
+					break;
+				case Message::Type::MEMEFY: // test move
+					Math::matrix44 transform = Component::Transform::Instance()->GetTransform(entity);
+					transform.translate(Math::float4(0, 0, 5, 0));
+					Component::Transform::Instance()->SetTransform(entity, transform);
+				}
+			}
+
+			// Entity not present
+			if (it == this->_instanceMap.End())
+			{
+				break;
+			}
+			it++;
+		}
 	}
 
 	void Graphic::Setup(Entities::Entity& entity)
