@@ -32,11 +32,13 @@ public:
 
 	InstanceId GetInstanceID(const Entities::Entity& e);
 
+	const Entities::Entity GetOwner(const InstanceId& id);
+
 	const Util::StringAtom GetStringID() const;
 
 	virtual void OnRegister() = 0;
 
-	virtual void OnReset(InstanceId& id) = 0;
+	virtual void OnReset(const InstanceId& id) = 0;
 
 	virtual void OnBeginFrame() = 0;
 

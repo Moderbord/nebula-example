@@ -21,12 +21,14 @@ namespace Component {
 	{
 		__ConstructSingleton
 		this->stringID = Util::StringAtom("transform");
+		this->_instanceData.transform.Reserve(MaxNumInstances);
 	}
 
 	// deconstructor
 	Transform::~Transform()
 	{
-		_instanceMap.Clear();
+		this->_instanceMap.Clear();
+		this->_instanceData.transform.Clear();
 		__DestructSingleton
 	}
 
@@ -35,7 +37,7 @@ namespace Component {
 		this->_instanceData.transform.Append(_identityMatrix);
 	}
 
-	inline void Transform::OnReset(InstanceId& instance)
+	inline void Transform::OnReset(const InstanceId& instance)
 	{
 		this->_instanceData.transform[instance] = _identityMatrix;
 	}

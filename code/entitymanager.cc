@@ -16,11 +16,13 @@ namespace Manager
 	EntityManager::EntityManager() : _numEntities(0), _nextEntity(0)
 	{
 		__ConstructSingleton;
+		this->_entities.Reserve(MaxNumEntities);
 	}
 
 
 	EntityManager::~EntityManager()
 	{
+		this->_entities.Clear();
 		__DestructSingleton;
 	}
 
@@ -29,7 +31,7 @@ namespace Manager
 		// If queue isn't empty
 		if (!this->_idQueue.IsEmpty())
 		{	
-			// pop queue and append it to entity ArrayStack
+			// pop queue and append it to entity Array
 			Entities::Entity e = this->_idQueue.Dequeue();
 			this->_entities.Append(e);
 			this->_numEntities++;
@@ -53,7 +55,7 @@ namespace Manager
 
 	void EntityManager::DeleteEntity(const Entities::Entity& e)
 	{	
-		// Get index from ArrayStack
+		// Get index from Array
 		IndexT index = this->_entities.FindIndex(e);
 		// check if invalid index
 		if (index != InvalidIndex)

@@ -275,6 +275,11 @@ ExampleApplication::Run()
 	Entities::Entity ent3 = p_NewEntity();
 	Entities::Entity ent4 = p_NewEntity();
 
+	Manager::EntityManager::Instance()->DeleteEntity(ent2);
+
+	Entities::Entity ent5 = p_NewEntity();
+	Entities::Entity ent6 = p_NewEntity();
+
 	Component::Register<Component::Transform>(ent4);
 	Component::Register<Component::Graphic>(ent4);
 	Component::Graphic::Instance()->SetResourceName(ent4, "mdl:Units/Unit_Blooddragon.n3");
@@ -302,9 +307,10 @@ ExampleApplication::Run()
 	Component::Graphic::Instance()->SetupAnimated(ent3);
 	Component::Graphic::Instance()->PlayAnimated(ent3);
 
-	Component::Deregister<Component::Graphic>(ent2);
+	Component::InstanceId id = Component::GetInstanceID<Component::Transform>(ent6);
+	Component::InstanceId id2 = Component::GetInstanceID<Component::Transform>(ent4);
 
-	//Message::Send(ent1, Message::Type::msg);
+	//Component::Deregister<Component::Graphic>(ent2);
 
     //Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
     ////// Register entity to various graphics contexts.

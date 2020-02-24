@@ -30,7 +30,7 @@ namespace Component {
 		~Transform();
 
 		void OnRegister();
-		void OnReset(InstanceId& instance);
+		void OnReset(const InstanceId& instance);
 		void OnBeginFrame();
 		void OnRender();
 		void OnEndFrame();
@@ -39,7 +39,7 @@ namespace Component {
 		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
 
 		struct Attributes{
-			Util::ArrayStack<Math::matrix44, MaxNumInstances> transform;
+			Util::Array<Math::matrix44> transform;
 		};
 
 		Math::matrix44 GetTransform(const Entities::Entity& entity);
@@ -63,7 +63,7 @@ namespace Component {
 		~Graphic();
 
 		void OnRegister();
-		void OnReset(InstanceId& instance);
+		void OnReset(const InstanceId& instance);
 		void OnBeginFrame();
 		void OnRender();
 		void OnEndFrame();
@@ -72,22 +72,22 @@ namespace Component {
 		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
 
 		struct Attributes {
-			Util::ArrayStack<Graphics::GraphicsEntityId, MaxNumInstances> graphicId;
-			Util::ArrayStack<Util::StringAtom, MaxNumInstances> resourceName;
-			Util::ArrayStack<Util::StringAtom, MaxNumInstances> skeleton;
-			Util::ArrayStack<Util::StringAtom, MaxNumInstances> animation;
-			Util::ArrayStack<Util::StringAtom, MaxNumInstances> tag;
+			Util::Array<Graphics::GraphicsEntityId> graphicId;
+			Util::Array<Util::StringAtom> resourceName;
+			Util::Array<Util::StringAtom> skeleton;
+			Util::Array<Util::StringAtom> animation;
+			Util::Array<Util::StringAtom> tag;
 		};
 
-		void Setup(Entities::Entity& entity);
-		void SetupAnimated(Entities::Entity& entity);
+		void Setup(const Entities::Entity& entity);
+		void SetupAnimated(const Entities::Entity& entity);
 
-		void SetResourceName(Entities::Entity& entity, const Util::StringAtom& resource);
-		void SetSkeleton(Entities::Entity& entity, const Util::StringAtom& skeleton);
-		void SetAnimation(Entities::Entity& entity, const Util::StringAtom& animation);
-		void SetTag(Entities::Entity& entity, const Util::StringAtom& tag);
+		void SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource);
+		void SetSkeleton(const Entities::Entity& entity, const Util::StringAtom& skeleton);
+		void SetAnimation(const Entities::Entity& entity, const Util::StringAtom& animation);
+		void SetTag(const Entities::Entity& entity, const Util::StringAtom& tag);
 
-		void PlayAnimated(Entities::Entity& entity);
+		void PlayAnimated(const Entities::Entity& entity);
 
 	private:
 		// Contains the data for each entity in an array

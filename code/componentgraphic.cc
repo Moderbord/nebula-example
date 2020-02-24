@@ -18,12 +18,23 @@ namespace Component {
 	{
 		__ConstructSingleton
 		this->stringID = Util::StringAtom("graphic");
+		// Reserve memory
+		this->_instanceData.graphicId.Reserve(MaxNumInstances);
+		this->_instanceData.resourceName.Reserve(MaxNumInstances);
+		this->_instanceData.skeleton.Reserve(MaxNumInstances);
+		this->_instanceData.animation.Reserve(MaxNumInstances);
+		this->_instanceData.tag.Reserve(MaxNumInstances);
 	}
 
 	// deconstructor
 	Graphic::~Graphic()
 	{
 		_instanceMap.Clear();
+		this->_instanceData.graphicId.Clear();
+		this->_instanceData.resourceName.Clear();
+		this->_instanceData.skeleton.Clear();
+		this->_instanceData.animation.Clear();
+		this->_instanceData.tag.Clear();
 		__DestructSingleton
 	}
 
@@ -37,7 +48,7 @@ namespace Component {
 		this->_instanceData.animation.Append("");
 	}
 
-	inline void Graphic::OnReset(InstanceId& instance)
+	inline void Graphic::OnReset(const InstanceId& instance)
 	{
 		Graphics::GraphicsEntityId id = Graphics::CreateEntity();
 		this->_instanceData.graphicId[instance] = id;
@@ -96,7 +107,6 @@ namespace Component {
 
 	inline void Graphic::OnDestroy()
 	{
-		// TODO more?
 		this->~Graphic();
 	}
 
@@ -130,7 +140,7 @@ namespace Component {
 		}
 	}
 
-	void Graphic::Setup(Entities::Entity& entity)
+	void Graphic::Setup(const Entities::Entity& entity)
 	{
 		// Get component instance and associated graphicId
 		InstanceId instance = this->_instanceMap[entity];
@@ -144,7 +154,7 @@ namespace Component {
 
 	}
 
-	void Graphic::SetupAnimated(Entities::Entity& entity)
+	void Graphic::SetupAnimated(const Entities::Entity& entity)
 	{
 		// Get component instance and associated graphicId
 		InstanceId instance = this->_instanceMap[entity];
@@ -160,31 +170,31 @@ namespace Component {
 			this->_instanceData.animation[instance],this->_instanceData.tag[instance]);
 	}
 
-	void Graphic::SetResourceName(Entities::Entity& entity, const Util::StringAtom& resource)
+	void Graphic::SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource)
 	{
 		InstanceId instance = this->_instanceMap[entity];
 		this->_instanceData.resourceName[instance] = resource;
 	}
 
-	void Graphic::SetSkeleton(Entities::Entity& entity, const Util::StringAtom& skeleton)
+	void Graphic::SetSkeleton(const Entities::Entity& entity, const Util::StringAtom& skeleton)
 	{
 		InstanceId instance = this->_instanceMap[entity];
 		this->_instanceData.skeleton[instance] = skeleton;
 	}
 
-	void Graphic::SetAnimation(Entities::Entity& entity, const Util::StringAtom& animation)
+	void Graphic::SetAnimation(const Entities::Entity& entity, const Util::StringAtom& animation)
 	{
 		InstanceId instance = this->_instanceMap[entity];
 		this->_instanceData.animation[instance] = animation;
 	}
 
-	void Graphic::SetTag(Entities::Entity& entity, const Util::StringAtom& tag)
+	void Graphic::SetTag(const Entities::Entity& entity, const Util::StringAtom& tag)
 	{
 		InstanceId instance = this->_instanceMap[entity];
 		this->_instanceData.tag[instance] = tag;
 	}
 
-	void Graphic::PlayAnimated(Entities::Entity& entity)
+	void Graphic::PlayAnimated(const Entities::Entity& entity)
 	{
 		InstanceId instance = this->_instanceMap[entity];
 		Characters::CharacterContext::PlayClip(this->_instanceData.graphicId[instance],
