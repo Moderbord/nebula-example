@@ -273,14 +273,20 @@ ExampleApplication::Run()
 	Entities::Entity ent1 = p_NewEntity();
 	Entities::Entity ent2 = p_NewEntity();
 	Entities::Entity ent3 = p_NewEntity();
+	Entities::Entity ent4 = p_NewEntity();
+
+	Component::Register<Component::Transform>(ent4);
+	Component::Register<Component::Graphic>(ent4);
+	Component::Graphic::Instance()->SetResourceName(ent4, "mdl:Units/Unit_Blooddragon.n3");
+	Component::Graphic::Instance()->Setup(ent4);
 
 	Component::Register<Component::Transform>(ent1);
 	Component::Register<Component::Graphic>(ent1);
 	Component::Graphic::Instance()->SetResourceName(ent1, "mdl:Units/Unit_Dragon.n3");
 	Component::Graphic::Instance()->Setup(ent1);
 
-	Math::matrix44 transMat = Math::matrix44::translation(Math::point(3, 5, 0));
-	transMat = transMat.rotationx(Math::scalar(-1.6));
+	Math::matrix44 transMat = Math::matrix44::identity().rotationx(Math::scalar(-1.6));
+	transMat.translate(Math::float4(0, 0, -50, 0));
 	Component::Transform::Instance()->SetTransform(ent1, transMat);
 
 	Component::Register<Component::Transform>(ent2);

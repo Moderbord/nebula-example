@@ -64,19 +64,19 @@ protected:
 };
 
 template<typename COMPONENT>
-InstanceId Register(Entities::Entity& e)
+InstanceId Register(const Entities::Entity& e)
 {
 	return COMPONENT::Instance()->RegisterEntity(e);
 }
 
 template<typename COMPONENT>
-void Deregister(Entities::Entity& e)
+void Deregister(const Entities::Entity& e)
 {
 	return COMPONENT::Instance()->DeregisterEntity(e);
 }
 
 template<typename COMPONENT>
-bool IsRegistered(Entities::Entity& e)
+bool HasComponent(const Entities::Entity& e)
 {
 	return COMPONENT::Instance()->IsRegistered(e);
 }
@@ -89,7 +89,7 @@ InstanceId GetInstanceID(Entities::Entity& e)
 
 // TODO try this one
 template<typename COMPONENT>
-void Message(Entities::Entity& entity, Message::Type& type)
+void Message(const Entities::Entity& entity, const Message::Type& type)
 {
 	COMPONENT::Instance()->OnMessage(entity, type);
 }

@@ -61,7 +61,7 @@ namespace Component {
 
 	inline void Transform::OnDestroy()
 	{
-		// TODO more?
+		// TODO more
 		this->~Transform();
 	}
 
@@ -71,12 +71,14 @@ namespace Component {
 
 	Math::matrix44 Transform::GetTransform(const Entities::Entity& entity)
 	{
+		n_assert(Component::HasComponent<Component::Transform>(entity));
 		InstanceId instance = this->_instanceMap[entity];
 		return this->_instanceData.transform[instance];
 	}
 
 	void Transform::SetTransform(const Entities::Entity& entity, Math::matrix44 transform)
 	{
+		n_assert(Component::HasComponent<Component::Transform>(entity));
 		InstanceId instance = this->_instanceMap[entity];
 		this->_instanceData.transform[instance] = transform;
 	}
