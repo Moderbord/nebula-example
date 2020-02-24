@@ -267,8 +267,8 @@ ExampleApplication::Run()
 	Component::Transform trans = Component::Transform();
 	Component::Graphic graphic = Component::Graphic();
 
-	p_RegisterComponent(&trans);
-	p_RegisterComponent(&graphic);
+	p_RegisterComponent(trans)
+	p_RegisterComponent(graphic)
 	
 	Entities::Entity ent1 = p_NewEntity();
 	Entities::Entity ent2 = p_NewEntity();
@@ -307,8 +307,6 @@ ExampleApplication::Run()
 	Component::Graphic::Instance()->SetupAnimated(ent3);
 	Component::Graphic::Instance()->PlayAnimated(ent3);
 
-	Component::InstanceId id = Component::GetInstanceID<Component::Transform>(ent6);
-	Component::InstanceId id2 = Component::GetInstanceID<Component::Transform>(ent4);
 
 	//Component::Deregister<Component::Graphic>(ent2);
 
@@ -470,7 +468,7 @@ ExampleApplication::UpdateCamera()
         this->mayaCameraUtil.Reset();
 
 		Entities::Entity ent = 1;
-		Message::Send(ent, Message::Type::MEMEFY);
+		Component::Message<Component::Graphic>(ent, Message::Type::MEMEFY);
     }
     if (keyboard->KeyPressed(Input::Key::Left))
     {

@@ -42,10 +42,13 @@ namespace Manager {
 
 		void OnRender();
 
+		void OnEndFrame();
+
 		Component::ComponentInterface* GetComponent(const Util::StringAtom& stringID);
 
-		void RelayMessage(const Entities::Entity& entity, const Message::Type& type) const;
+		void DeleteEntity(const Entities::Entity& entity);
 
+		void HandleMessage(const Entities::Entity& entity, const Message::Type& type) const;
 
 	private:
 

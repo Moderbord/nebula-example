@@ -61,14 +61,30 @@ namespace Component {
 		this->_instanceMap.Clear();
 	}
 
-	inline void Transform::OnDestroy()
+	void Transform::OnMessage(const Entities::Entity& entity, const Message::Type& msgType)
 	{
-		// TODO more
-		this->~Transform();
-	}
+		auto it = this->_instanceMap.Begin();
+		while (true)
+		{
+			if (it.key != nullptr && *it.key == entity)
+			{
+				// Map entity to instance
+				InstanceId instance = *it.val;
+				switch (msgType)
+				{
+				case Message::Type::DEREGISTER:
+					this->DeregisterEntity(entity);
+					break;
+				}
+			}
 
-	void Transform::OnMessage(const Entities::Entity& entity, const Message::Type& type)
-	{
+			// Entity not present
+			if (it == this->_instanceMap.End())
+			{
+				break;
+			}
+			it++;
+		}
 	}
 
 	Math::matrix44 Transform::GetTransform(const Entities::Entity& entity)

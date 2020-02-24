@@ -23,9 +23,8 @@
 #include "core/coreserver.h"
 #include "io/iointerface.h"
 
-#include "messagemanager.h"
+#include "componentmanager.h"
 #include "entitymanager.h"
-#include "component.h"
 
 namespace Example
 {

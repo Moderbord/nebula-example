@@ -42,7 +42,7 @@ namespace Manager
 		auto it = this->_componentTable.Begin();
 		while (true)
 		{
-			if (*it.val == component)
+			if (it.key != nullptr && *it.val == component)
 			{
 				this->_componentTable.Erase(*it.key);
 				break;
@@ -94,6 +94,14 @@ namespace Manager
 		}
 	}
 
+	void ComponentManager::OnEndFrame()
+	{
+		for (Component::ComponentInterface* component : this->_components)
+		{
+			component->OnEndFrame();
+		}
+	}
+
 	Component::ComponentInterface* ComponentManager::GetComponent(const Util::StringAtom& stringID)
 	{
 		auto it = this->_componentTable.Begin();
@@ -111,7 +119,21 @@ namespace Manager
 		}
 	}
 
-	void ComponentManager::RelayMessage(const Entities::Entity& entity, const Message::Type& type) const
+	/*
+		Called from a component when deleting a whole entity
+	*/
+	void ComponentManager::DeleteEntity(const Entities::Entity& entity)
+	{
+		// Iterate through components
+		for (Component::ComponentInterface* component : this->_components)
+		{	
+			// Check if entity is registered
+			if (component->IsRegistered(entity))
+				component->DeregisterEntity(entity);
+		}
+	}
+
+	void ComponentManager::HandleMessage(const Entities::Entity& entity, const Message::Type& type) const
 	{
 		for (Component::ComponentInterface* component : this->_components)
 		{

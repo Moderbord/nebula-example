@@ -35,7 +35,6 @@ namespace Component {
 		void OnRender();
 		void OnEndFrame();
 		void Clear();
-		void OnDestroy();
 		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
 
 		struct Attributes{
@@ -68,7 +67,6 @@ namespace Component {
 		void OnRender();
 		void OnEndFrame();
 		void Clear();
-		void OnDestroy();
 		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
 
 		struct Attributes {

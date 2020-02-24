@@ -1,5 +1,6 @@
 #pragma once
 #include "component.h"
+#include "messagemanager.h"
 
 
 /*
@@ -105,11 +106,6 @@ namespace Component {
 		this->_instanceMap.Clear();
 	}
 
-	inline void Graphic::OnDestroy()
-	{
-		this->~Graphic();
-	}
-
 	void Graphic::OnMessage(const Entities::Entity& entity, const Message::Type& msgType)
 	{
 		auto it = this->_instanceMap.Begin();
@@ -121,7 +117,7 @@ namespace Component {
 				InstanceId instance = *it.val;
 				switch (msgType)
 				{
-				case Message::Type::DESTROY:
+				case Message::Type::DEREGISTER:
 					this->DeregisterEntity(entity);
 					break;
 				case Message::Type::MEMEFY: // test move

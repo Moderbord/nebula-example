@@ -53,25 +53,32 @@ InstanceId ComponentInterface::RegisterEntity(const Entities::Entity& e)
 
 void ComponentInterface::DeregisterEntity(const Entities::Entity& e)
 {
-	// check if entity is registered
-	auto it = this->_instanceMap.Begin();
-	while (true)
-	{
-		if (*it.key == e)
-		{
-			// TODO this will leave an unused "gap" in memory until new entity fills it
-			this->_instanceMap.Erase(e);
-			this->_numInstances--;
-			// queue free instance
-			this->_instanceQueue.Enqueue(*it.val);
-			break;
-		}
-		if (it == this->_instanceMap.End())
-		{
-			break;
-		}
-		it++;
-	}
+	n_assert(this->_instanceMap.Contains(e));
+	// TODO this will leave an unused "gap" in memory until new entity fills it
+	this->_instanceQueue.Enqueue(this->_instanceMap[e]);
+	this->_instanceMap.Erase(e);
+	this->_numInstances--;
+
+	// queue free instance
+	//// check if entity is registered
+	//auto it = this->_instanceMap.Begin();
+	//while (true)
+	//{
+	//	if (*it.key == e)
+	//	{
+	//		// TODO this will leave an unused "gap" in memory until new entity fills it
+	//		this->_instanceMap.Erase(e);
+	//		this->_numInstances--;
+	//		// queue free instance
+	//		this->_instanceQueue.Enqueue(*it.val);
+	//		break;
+	//	}
+	//	if (it == this->_instanceMap.End())
+	//	{
+	//		break;
+	//	}
+	//	it++;
+	//}
 }
 
 bool ComponentInterface::IsRegistered(const Entities::Entity& e)

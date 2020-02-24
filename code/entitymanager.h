@@ -1,8 +1,7 @@
 #pragma once
 #include "core/refcounted.h"
 #include "core/singleton.h"
-#include "game/manager.h"
-#include "util/arraystack.h"
+#include "util/array.h"
 #include "util/queue.h"
 #include "entity.h"
 

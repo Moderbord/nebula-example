@@ -11,6 +11,7 @@ namespace Message
 	enum Type
 	{
 		MEMEFY,
+		DEREGISTER,
 		DESTROY,
 		DEFRAG,
 	};

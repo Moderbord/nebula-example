@@ -5,13 +5,13 @@
 #include "message.h"
 
 #define p_RegisterComponent(COMPONENT) \
-	Manager::ComponentManager::Instance()->RegisterComponent(COMPONENT);
-
+	Manager::ComponentManager::Instance()->RegisterComponent(&COMPONENT);
 /*
 	Header for component interface
 
 	TODO add some const
 */
+
 namespace Component {
 
 	typedef unsigned InstanceId;
@@ -48,8 +48,6 @@ public:
 
 	virtual void Clear() = 0;
 
-	virtual void OnDestroy() = 0;
-
 	virtual void OnMessage(const Entities::Entity& entity, const Message::Type& type) = 0;
 
 	Util::StringAtom stringID;
@@ -63,6 +61,7 @@ protected:
 	Util::Queue<Entities::Entity> _instanceQueue;
 	// maps component instance to owner entity
 	Util::HashTable<Entities::Entity, InstanceId, MaxNumInstances, 1> _instanceMap;
+
 };
 
 template<typename COMPONENT>
