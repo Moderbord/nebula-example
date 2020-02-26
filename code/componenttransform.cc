@@ -5,7 +5,6 @@
 	Transform component
 
 	TODO add some comments
-	TODO add some const
 	TODO handle fragmantation
 	TODO handle deregistration
 */
@@ -47,18 +46,13 @@ namespace Component {
 	}
 
 	inline void Transform::OnBeginFrame()
-	{
-
-	}
+	{}
 
 	inline void Transform::OnRender()
-	{
-		// TODO stuff
-	}
+	{}
 
 	inline void Transform::OnEndFrame()
-	{
-	}
+	{}
 
 	inline void Transform::Clear()
 	{
@@ -67,6 +61,11 @@ namespace Component {
 
 	void Transform::OnMessage(const Message::Message& msg)
 	{
+	}
+
+	const Entities::Entity Transform::GetOwner(const InstanceId& instance)
+	{
+		return this->_instanceData.owners[instance];
 	}
 
 	Math::matrix44 Transform::GetTransform(const Entities::Entity& entity)

@@ -10,10 +10,7 @@
 /*
 	Header file for all components
 
-	TODO change from ArrayStack to Array
 	TODO handle fragmantation
-	TODO add method to retreive owner of instance (entity)
-	TODO add const to methods
 */
 namespace Component {
 	//------------------------------------------------------------------------------
@@ -23,7 +20,7 @@ namespace Component {
 	class Transform : public ComponentInterface
 	{
 		__DeclareSingleton(Component::Transform)
-		const Math::matrix44 _identityMatrix = Math::matrix44::translation(Math::point(0, 0, 0));
+		const Math::matrix44 _identityMatrix;
 
 	public:
 		Transform();
@@ -42,8 +39,10 @@ namespace Component {
 			Util::Array<Math::matrix44> transform;
 		};
 
+		const Entities::Entity GetOwner(const InstanceId& instance);
+
 		Math::matrix44 GetTransform(const Entities::Entity& entity);
-		void SetTransform(const Entities::Entity& entity, Math::matrix44 transform);
+		void SetTransform(const Entities::Entity& entity, const Math::matrix44 transform);
 
 	private:
 		// Contains the data for each entity in an array
@@ -82,6 +81,8 @@ namespace Component {
 		void Setup(const Entities::Entity& entity);
 		void SetupAnimated(const Entities::Entity& entity);
 		void Remove(const Entities::Entity& entity);
+
+		const Entities::Entity GetOwner(const InstanceId& instance);
 
 		void SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource);
 		void SetSkeleton(const Entities::Entity& entity, const Util::StringAtom& skeleton);

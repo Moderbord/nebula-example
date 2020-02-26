@@ -32,8 +32,6 @@ namespace Component {
 
 		InstanceId GetInstanceID(const Entities::Entity& e);
 
-		const Entities::Entity GetOwner(const InstanceId& id);
-
 		const Util::StringAtom GetStringID() const;
 
 		virtual void OnRegister(const Entities::Entity& e) = 0;
@@ -48,7 +46,7 @@ namespace Component {
 
 		virtual void Clear() = 0;
 
-		//virtual void OnMessage(const Entities::Entity& entity, const Message::Type& type) = 0;
+		virtual const Entities::Entity GetOwner(const InstanceId& id) = 0;
 
 		Util::StringAtom stringID;
 

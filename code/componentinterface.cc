@@ -71,22 +71,6 @@ InstanceId ComponentInterface::GetInstanceID(const Entities::Entity& e)
 	return this->_instanceMap[e];
 }
 
-const Entities::Entity ComponentInterface::GetOwner(const InstanceId& id)
-{
-	auto it = this->_instanceMap.Begin();
-	while (true)
-	{
-		if (it.key != nullptr && *it.val == id)
-		{
-			return *it.key;
-		}
-
-		if (it == this->_instanceMap.End())
-			n_error("No entity found for instance");
-		it++;
-	}
-}
-
 const Util::StringAtom
 ComponentInterface::GetStringID() const
 {

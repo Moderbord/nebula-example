@@ -11,7 +11,7 @@ namespace Message
 	struct SendTransform
 	{
 		p_DeclareMessage('sTrf');
-		Math::matrix44 mat; // gives identity matrix
+		Math::matrix44 mat; // identity matrix
 		Entities::Entity targetId;
 	};
 

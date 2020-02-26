@@ -68,11 +68,8 @@ namespace Component {
 		// Loop through all entities in component
 		for (Entities::Entity entity : this->_instanceData.owners)
 		{
-			// entity has been removed, needs defrag
-			if (!this->_instanceMap.Contains(entity))
-			{
-				continue;
-			}
+			// check that entity exist in map
+			n_assert(this->_instanceMap.Contains(entity))
 			// Get instance of data
 			InstanceId instance = this->_instanceMap[entity];
 			// graphical id
@@ -93,8 +90,7 @@ namespace Component {
 	}
 
 	inline void Graphic::OnEndFrame()
-	{
-	}
+	{}
 
 	inline void Graphic::Clear()
 	{
@@ -171,6 +167,11 @@ namespace Component {
 		// check if animated 
 		if (Characters::CharacterContext::IsEntityRegistered(graphicId))
 			Characters::CharacterContext::DeregisterEntity(graphicId);
+	}
+
+	const Entities::Entity Graphic::GetOwner(const InstanceId& instance)
+	{
+		return this->_instanceData.owners[instance];
 	}
 
 	void Graphic::SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource)
