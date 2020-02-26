@@ -308,8 +308,6 @@ ExampleApplication::Run()
 	Component::Graphic::Instance()->PlayAnimated(ent3);
 
 
-	//Component::Deregister<Component::Graphic>(ent2);
-
     //Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
     ////// Register entity to various graphics contexts.
     //// The template parameters are which contexts that the entity should be registered to.
@@ -467,11 +465,12 @@ ExampleApplication::UpdateCamera()
     {
         this->mayaCameraUtil.Reset();
 
-		Entities::Entity ent = 1;
-		Component::Message<Component::Graphic>(ent, Message::Type::MEMEFY);
+		Component::Message<Component::Graphic>(1, Message::Type::MEMEFY);
     }
     if (keyboard->KeyPressed(Input::Key::Left))
     {
+		Component::Message<Component::Graphic>(3, Message::Type::DEREGISTER);
+
         panning.x() -= 0.1f;
         pos.x() -= 0.1f;
     }

@@ -1,42 +1,39 @@
-//#pragma once
-//#include "core/singleton.h"
-//#include "core/refcounted.h"
-//#include "componentmanager.h"
-//#include "message.h"
-//
-///*
-//	MessageHandler receives and dispatches messages 
-//
-//	>>>>TODO REWORK ENTIRELY<<<<
-//
-//	TODO add message groups and possibility for entities (components?)
-//	TODO subscription to message groups
-//	TODO send to all entities/components
-//	TODO send to message group
-//	TODO delayed messages
-//*/
-//
-//namespace Message
+#define __DeclareMessage(HASH) \
+	static constexpr uint ID = HASH;
+
+struct MyMsg
+{
+	__DeclareMessage('MyMs');
+	int a = 0;
+	float foo = 20.0f;
+};
+
+//class Message
 //{
-//	class MessageManager : public Core::RefCounted
+//public:
+//	template<typename T>
+//	explicit Message(T* data) :
+//		type(T::ID),
+//		data(data)
 //	{
-//		__DeclareClass(Message::MessageManager)
-//		__DeclareSingleton(Message::MessageManager)
+//		// for serialization
+//		//static_assert(std::is_trivially_copyable<T>());
+//	}
 //
-//	public:
-//		// constructor
-//		MessageManager();
-//		// destructor
-//		~MessageManager();
+//	Message() = delete;
 //
-//		void AddComponentSubscriber(const Component::ComponentInterface* component);
+//	const uint type;
+//	const void* data;
+//};
+
+//MyMsg m;
+//m.a = 10;
+//m.foo = 60.0f;
+//Message msg = Message(&m);
 //
-//	private:
-//	};
-//	
-//	//inline void SendToEntity(const Entities::Entity& entity, const Type& type)
-//	//{
-//	//	Manager::ComponentManager::Instance()->HandleMessage(entity, type);
-//	//}
+//
+//if (msg.type == MyMsg::ID)
+//{
+//	MyMsg* data = (MyMsg*)msg.data;
 //
 //}

@@ -71,8 +71,7 @@ namespace Component {
 				Graphics::GraphicsEntityId graphicId = this->_instanceData.graphicId[*it.val];
 				// TODO Need to check if target has transform component first
 				// Get transform
-				Entities::Entity entity = *it.key;
-				Math::matrix44 transform = Component::Transform::Instance()->GetTransform(entity);
+				Math::matrix44 transform = Component::Transform::Instance()->GetTransform(*it.key);
 				// TODO doesn't sheck if part of current context
 				// Update model context
 				Models::ModelContext::SetTransform(graphicId, transform);
@@ -86,13 +85,11 @@ namespace Component {
 
 	inline void Graphic::OnRender()
 	{
-		Entities::Entity ent = 3;
-		Math::matrix44 transform = Component::Transform::Instance()->GetTransform(ent);
+		Math::matrix44 transform = Component::Transform::Instance()->GetTransform(3);
 		transform.translate(Math::float4(0, 0, 0.1, 0));
-		Component::Transform::Instance()->SetTransform(ent, transform);
+		Component::Transform::Instance()->SetTransform(3, transform);
 
-		//Entities::Entity ent2 = 1;
-		//Math::matrix44 transform2 = Component::Transform::Instance()->GetTransform(ent2);
+		//Math::matrix44 transform2 = Component::Transform::Instance()->GetTransform(1);
 		//transform2.translate(Math::float4(0, 0, 0.05, 0));
 		//Component::Transform::Instance()->SetTransform(ent2, transform2);
 	}
@@ -118,6 +115,7 @@ namespace Component {
 				switch (msgType)
 				{
 				case Message::Type::DEREGISTER:
+					this->Deconstruct(entity);
 					this->DeregisterEntity(entity);
 					break;
 				case Message::Type::MEMEFY: // test move
@@ -138,6 +136,7 @@ namespace Component {
 
 	void Graphic::Setup(const Entities::Entity& entity)
 	{
+		n_assert(this->_instanceMap.Contains(entity));
 		// Get component instance and associated graphicId
 		InstanceId instance = this->_instanceMap[entity];
 		Graphics::GraphicsEntityId graphicId = this->_instanceData.graphicId[instance];
@@ -152,6 +151,7 @@ namespace Component {
 
 	void Graphic::SetupAnimated(const Entities::Entity& entity)
 	{
+		n_assert(this->_instanceMap.Contains(entity));
 		// Get component instance and associated graphicId
 		InstanceId instance = this->_instanceMap[entity];
 		Graphics::GraphicsEntityId graphicId = this->_instanceData.graphicId[instance];
@@ -164,6 +164,19 @@ namespace Component {
 		// Setup skeleton and animation
 		Characters::CharacterContext::Setup(graphicId, this->_instanceData.skeleton[instance],
 			this->_instanceData.animation[instance],this->_instanceData.tag[instance]);
+	}
+
+	void Graphic::Deconstruct(const Entities::Entity& entity)
+	{
+		n_assert(this->_instanceMap.Contains(entity));
+		// Get component instance and associated graphicId
+		InstanceId instance = this->_instanceMap[entity];
+		Graphics::GraphicsEntityId graphicId = this->_instanceData.graphicId[instance];
+		// Deregister from contexts
+		Graphics::DeregisterEntity<Models::ModelContext, Visibility::ObservableContext>(graphicId);
+		// check if animated 
+		if (Characters::CharacterContext::IsEntityRegistered(graphicId))
+			Characters::CharacterContext::DeregisterEntity(graphicId);
 	}
 
 	void Graphic::SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource)

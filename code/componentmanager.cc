@@ -16,6 +16,7 @@ namespace Manager
 
 	ComponentManager::ComponentManager()
 	{
+
 		__ConstructSingleton;
 	}
 
@@ -133,13 +134,13 @@ namespace Manager
 		}
 	}
 
-	void ComponentManager::HandleMessage(const Entities::Entity& entity, const Message::Type& type) const
-	{
-		for (Component::ComponentInterface* component : this->_components)
-		{
-			component->OnMessage(entity, type);
-		}
-	}
+	//void ComponentManager::HandleMessage(const Entities::Entity& entity, const Message::Type& type) const
+	//{
+	//	for (Component::ComponentInterface* component : this->_components)
+	//	{
+	//		component->OnMessage(entity, type);
+	//	}
+	//}
 
 
 

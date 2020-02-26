@@ -70,6 +70,7 @@ namespace Component {
 		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
 
 		struct Attributes {
+			//Util::Array<Entities::Entity> graphicId;
 			Util::Array<Graphics::GraphicsEntityId> graphicId;
 			Util::Array<Util::StringAtom> resourceName;
 			Util::Array<Util::StringAtom> skeleton;
@@ -79,6 +80,7 @@ namespace Component {
 
 		void Setup(const Entities::Entity& entity);
 		void SetupAnimated(const Entities::Entity& entity);
+		void Deconstruct(const Entities::Entity& entity);
 
 		void SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource);
 		void SetSkeleton(const Entities::Entity& entity, const Util::StringAtom& skeleton);

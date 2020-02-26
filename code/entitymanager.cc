@@ -70,6 +70,9 @@ namespace Manager
 
 	bool EntityManager::IsAlive(const Entities::Entity& e) const
 	{
+		if (e > this->_numEntities)
+			return false;
+		// TODO check queue instead
 		// Returns 0 if entity doesn't exist
 		return this->_entities.Find(e) != 0;
 	}

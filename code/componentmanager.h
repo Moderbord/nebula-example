@@ -47,8 +47,8 @@ namespace Manager {
 		Component::ComponentInterface* GetComponent(const Util::StringAtom& stringID);
 
 		void DeleteEntity(const Entities::Entity& entity);
-
-		void HandleMessage(const Entities::Entity& entity, const Message::Type& type) const;
+/*
+		void HandleMessage(const Entities::Entity& entity, const Message::Type& type) const;*/
 
 	private:
 
