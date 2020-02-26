@@ -21,6 +21,7 @@ namespace Component {
 	{
 		__ConstructSingleton
 		this->stringID = Util::StringAtom("transform");
+		this->_instanceData.owners.Reserve(MaxNumInstances);
 		this->_instanceData.transform.Reserve(MaxNumInstances);
 	}
 
@@ -28,17 +29,20 @@ namespace Component {
 	Transform::~Transform()
 	{
 		this->_instanceMap.Clear();
+		this->_instanceData.owners.Clear();
 		this->_instanceData.transform.Clear();
 		__DestructSingleton
 	}
 
-	inline void Transform::OnRegister()
+	inline void Transform::OnRegister(const Entities::Entity& entity)
 	{
+		this->_instanceData.owners.Append(entity);
 		this->_instanceData.transform.Append(_identityMatrix);
 	}
 
-	inline void Transform::OnReset(const InstanceId& instance)
+	inline void Transform::OnReset(const Entities::Entity& entity, const InstanceId& instance)
 	{
+		this->_instanceData.owners[instance] = entity;
 		this->_instanceData.transform[instance] = _identityMatrix;
 	}
 
@@ -61,31 +65,9 @@ namespace Component {
 		this->_instanceMap.Clear();
 	}
 
-	//void Transform::OnMessage(const Entities::Entity& entity, const Message::Type& msgType)
-	//{
-	//	auto it = this->_instanceMap.Begin();
-	//	while (true)
-	//	{
-	//		if (it.key != nullptr && *it.key == entity)
-	//		{
-	//			// Map entity to instance
-	//			InstanceId instance = *it.val;
-	//			switch (msgType)
-	//			{
-	//			case Message::Type::DEREGISTER:
-	//				this->DeregisterEntity(entity);
-	//				break;
-	//			}
-	//		}
-
-	//		// Entity not present
-	//		if (it == this->_instanceMap.End())
-	//		{
-	//			break;
-	//		}
-	//		it++;
-	//	}
-	//}
+	void Transform::OnMessage(const Message::Message& msg)
+	{
+	}
 
 	Math::matrix44 Transform::GetTransform(const Entities::Entity& entity)
 	{

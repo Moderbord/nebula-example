@@ -462,35 +462,47 @@ ExampleApplication::UpdateCamera()
     this->mayaCameraUtil.SetZoomOutButton(mouse->WheelBackward());
     this->mayaCameraUtil.SetMouseMovement(mouse->GetMovement());
 
+	Message::SendMove m;
+	m.targetId = 1;
+
     // process keyboard input
     Math::float4 pos(0.0f);
     if (keyboard->KeyDown(Input::Key::Space))
     {
+		Message::Deregister mm;
+		mm.targetId = 3;
+
+		Message::Message msg2 = Message::Message(&mm);
+		Message::Component<Component::Graphic>(msg2);
+
         this->mayaCameraUtil.Reset();
 
-		Message::SendMove m;
-		m.target = 1;
-		m.vec = Math::float4(0, 0, 5, 0);
 
-		Message::Message msg = Message::Message(&m);
-
-		Message::Component<Component::Graphic>(msg);
-		//Component::Message<Component::Graphic>(1, Message::Type::MEMEFY);
     }
     if (keyboard->KeyPressed(Input::Key::Left))
     {
-		//Component::Message<Component::Graphic>(3, Message::Type::DEREGISTER);
+		m.vec = Math::float4(5, 0, 0, 0);
+		Message::Message msg = Message::Message(&m);
+		Message::Component<Component::Graphic>(msg);
 
         panning.x() -= 0.1f;
         pos.x() -= 0.1f;
     }
     if (keyboard->KeyPressed(Input::Key::Right))
     {
+		m.vec = Math::float4(-5, 0, 0, 0);
+		Message::Message msg = Message::Message(&m);
+		Message::Component<Component::Graphic>(msg);
+
         panning.x() += 0.1f;
         pos.x() += 0.1f;
     }
     if (keyboard->KeyPressed(Input::Key::Up))
     {
+		m.vec = Math::float4(0, 0, 5, 0);
+		Message::Message msg = Message::Message(&m);
+		Message::Component<Component::Graphic>(msg);
+
         panning.y() -= 0.1f;
         if (keyboard->KeyPressed(Input::Key::LeftShift))
         {
@@ -503,6 +515,10 @@ ExampleApplication::UpdateCamera()
     }
     if (keyboard->KeyPressed(Input::Key::Down))
     {
+		m.vec = Math::float4(0, 0, -5, 0);
+		Message::Message msg = Message::Message(&m);
+		Message::Component<Component::Graphic>(msg);
+
         panning.y() += 0.1f;
         if (keyboard->KeyPressed(Input::Key::LeftShift))
         {

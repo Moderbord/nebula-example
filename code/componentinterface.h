@@ -36,9 +36,9 @@ namespace Component {
 
 		const Util::StringAtom GetStringID() const;
 
-		virtual void OnRegister() = 0;
+		virtual void OnRegister(const Entities::Entity& e) = 0;
 
-		virtual void OnReset(const InstanceId& id) = 0;
+		virtual void OnReset(const Entities::Entity& e, const InstanceId& id) = 0;
 
 		virtual void OnBeginFrame() = 0;
 

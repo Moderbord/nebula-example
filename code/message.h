@@ -12,17 +12,21 @@ namespace Message
 	{
 		p_DeclareMessage('sTrf');
 		Math::matrix44 mat; // gives identity matrix
-		Entities::Entity target;
+		Entities::Entity targetId;
 	};
 
 	struct SendMove
 	{
 		p_DeclareMessage('sMov');
 		Math::float4 vec = Math::float4(0, 0, 0, 0);
-		Entities::Entity target;
+		Entities::Entity targetId;
 	};
 
-
+	struct Deregister
+	{
+		p_DeclareMessage('dReg');
+		Entities::Entity targetId;
+	};
 
 	class Message
 	{
@@ -42,24 +46,16 @@ namespace Message
 		const void* data;
 	};
 
-	//MyMsg m;
-	//m.a = 10;
-	//m.foo = 60.0f;
-	//Message msg = Message(&m);
-	//
-	//
-	//if (msg.type == MyMsg::ID) ??
-	//{
-	//	MyMsg* data = (MyMsg*)msg.data;
-	//
-	//}
-
-
-	// TODO try this one
 	template<typename COMPONENT>
 	void Component(const Message& msg)
 	{
 		COMPONENT::Instance()->OnMessage(msg);
+	}
+
+	template<typename MANAGER>
+	void Manager(const Message& msg)
+	{
+		MANAGER::Instance()->OnMessage(msg);
 	}
 
 

@@ -29,15 +29,16 @@ namespace Component {
 		Transform();
 		~Transform();
 
-		void OnRegister();
-		void OnReset(const InstanceId& instance);
+		void OnRegister(const Entities::Entity& entity);
+		void OnReset(const Entities::Entity& entity, const InstanceId& instance);
 		void OnBeginFrame();
 		void OnRender();
 		void OnEndFrame();
 		void Clear();
-		//void OnMessage(const Entities::Entity& entity, const Message::Type& type);
+		void OnMessage(const Message::Message& msg);
 
 		struct Attributes{
+			Util::Array<Entities::Entity> owners;
 			Util::Array<Math::matrix44> transform;
 		};
 
@@ -61,8 +62,8 @@ namespace Component {
 		Graphic();
 		~Graphic();
 
-		void OnRegister();
-		void OnReset(const InstanceId& instance);
+		void OnRegister(const Entities::Entity& entity);
+		void OnReset(const Entities::Entity& entity, const InstanceId& instance);
 		void OnBeginFrame();
 		void OnRender();
 		void OnEndFrame();
@@ -70,7 +71,7 @@ namespace Component {
 		void OnMessage(const Message::Message& msg);
 
 		struct Attributes {
-			//Util::Array<Entities::Entity> graphicId;
+			Util::Array<Entities::Entity> owners;
 			Util::Array<Graphics::GraphicsEntityId> graphicId;
 			Util::Array<Util::StringAtom> resourceName;
 			Util::Array<Util::StringAtom> skeleton;
@@ -80,7 +81,7 @@ namespace Component {
 
 		void Setup(const Entities::Entity& entity);
 		void SetupAnimated(const Entities::Entity& entity);
-		void Deconstruct(const Entities::Entity& entity);
+		void Remove(const Entities::Entity& entity);
 
 		void SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource);
 		void SetSkeleton(const Entities::Entity& entity, const Util::StringAtom& skeleton);

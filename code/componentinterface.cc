@@ -35,7 +35,7 @@ InstanceId ComponentInterface::RegisterEntity(const Entities::Entity& e)
 		this->_instanceMap.Add(e, id);
 		this->_numInstances++;
 		// reset queued instance data
-		this->OnReset(id);
+		this->OnReset(e, id);
 		return id;
 	}
 
@@ -47,7 +47,7 @@ InstanceId ComponentInterface::RegisterEntity(const Entities::Entity& e)
 	// increment num instances
 	this->_numInstances++;
 	// initiates components variabels
-	this->OnRegister();
+	this->OnRegister(e);
 	return id;
 }
 
@@ -58,27 +58,6 @@ void ComponentInterface::DeregisterEntity(const Entities::Entity& e)
 	this->_instanceQueue.Enqueue(this->_instanceMap[e]);
 	this->_instanceMap.Erase(e);
 	this->_numInstances--;
-
-	// queue free instance
-	//// check if entity is registered
-	//auto it = this->_instanceMap.Begin();
-	//while (true)
-	//{
-	//	if (*it.key == e)
-	//	{
-	//		// TODO this will leave an unused "gap" in memory until new entity fills it
-	//		this->_instanceMap.Erase(e);
-	//		this->_numInstances--;
-	//		// queue free instance
-	//		this->_instanceQueue.Enqueue(*it.val);
-	//		break;
-	//	}
-	//	if (it == this->_instanceMap.End())
-	//	{
-	//		break;
-	//	}
-	//	it++;
-	//}
 }
 
 bool ComponentInterface::IsRegistered(const Entities::Entity& e)

@@ -20,6 +20,7 @@ namespace Component {
 		__ConstructSingleton
 		this->stringID = Util::StringAtom("graphic");
 		// Reserve memory
+		this->_instanceData.owners.Reserve(MaxNumInstances);
 		this->_instanceData.graphicId.Reserve(MaxNumInstances);
 		this->_instanceData.resourceName.Reserve(MaxNumInstances);
 		this->_instanceData.skeleton.Reserve(MaxNumInstances);
@@ -31,6 +32,7 @@ namespace Component {
 	Graphic::~Graphic()
 	{
 		_instanceMap.Clear();
+		this->_instanceData.owners.Clear();
 		this->_instanceData.graphicId.Clear();
 		this->_instanceData.resourceName.Clear();
 		this->_instanceData.skeleton.Clear();
@@ -39,8 +41,9 @@ namespace Component {
 		__DestructSingleton
 	}
 
-	inline void Graphic::OnRegister()
+	inline void Graphic::OnRegister(const Entities::Entity& entity)
 	{
+		this->_instanceData.owners.Append(entity);
 		Graphics::GraphicsEntityId id = Graphics::CreateEntity();
 		this->_instanceData.graphicId.Append(id);
 		this->_instanceData.resourceName.Append("mdl:system/placeholder.n3");
@@ -49,8 +52,9 @@ namespace Component {
 		this->_instanceData.animation.Append("");
 	}
 
-	inline void Graphic::OnReset(const InstanceId& instance)
+	inline void Graphic::OnReset(const Entities::Entity& entity, const InstanceId& instance)
 	{
+		this->_instanceData.owners[instance] = entity;
 		Graphics::GraphicsEntityId id = Graphics::CreateEntity();
 		this->_instanceData.graphicId[instance] = id;
 		this->_instanceData.resourceName[instance] = "mdl:system/placeholder.n3";
@@ -61,25 +65,22 @@ namespace Component {
 
 	inline void Graphic::OnBeginFrame()
 	{
-		// Loop through all instances inside component
-		auto it = this->_instanceMap.Begin();
-		while (true)
+		// Loop through all entities in component
+		for (Entities::Entity entity : this->_instanceData.owners)
 		{
-			if (it.key != nullptr) // TODO better
+			// entity has been removed, needs defrag
+			if (!this->_instanceMap.Contains(entity))
 			{
-				// Get graphicId
-				Graphics::GraphicsEntityId graphicId = this->_instanceData.graphicId[*it.val];
-				// TODO Need to check if target has transform component first
-				// Get transform
-				Math::matrix44 transform = Component::Transform::Instance()->GetTransform(*it.key);
-				// TODO doesn't sheck if part of current context
-				// Update model context
-				Models::ModelContext::SetTransform(graphicId, transform);
+				continue;
 			}
-
-			if (it == this->_instanceMap.End())
-				break;
-			it++;
+			// Get instance of data
+			InstanceId instance = this->_instanceMap[entity];
+			// graphical id
+			Graphics::GraphicsEntityId graphicId = this->_instanceData.graphicId[instance];
+			// transform
+			Math::matrix44 transform = Component::Transform::Instance()->GetTransform(entity);
+			// Update model context
+			Models::ModelContext::SetTransform(graphicId, transform);
 		}
 	}
 
@@ -104,16 +105,26 @@ namespace Component {
 	{
 		switch (msg.type)
 			{
-			case 'sTrf':
-				//this->Deconstruct(entity);
-				//this->DeregisterEntity(entity);
+			case 'dReg':
+			{
+				Message::Deregister* data = (Message::Deregister*)msg.data;
+				// remove from visual context (nebula stuff)
+				this->Remove(data->targetId);
+				// deregister from component
+				this->DeregisterEntity(data->targetId);
 				break;
+			}
 			case 'sMov': // test move
+			{
 				Message::SendMove* data = (Message::SendMove*)msg.data;
-
-				Math::matrix44 transform = Component::Transform::Instance()->GetTransform(data->target);
+				// get transform
+				Math::matrix44 transform = Component::Transform::Instance()->GetTransform(data->targetId);
+				// do transformation
 				transform.translate(data->vec);
-				Component::Transform::Instance()->SetTransform(data->target, transform);
+				// set new transform
+				Component::Transform::Instance()->SetTransform(data->targetId, transform);
+				break;
+			}
 			}
 	}
 
@@ -149,7 +160,7 @@ namespace Component {
 			this->_instanceData.animation[instance],this->_instanceData.tag[instance]);
 	}
 
-	void Graphic::Deconstruct(const Entities::Entity& entity)
+	void Graphic::Remove(const Entities::Entity& entity)
 	{
 		n_assert(this->_instanceMap.Contains(entity));
 		// Get component instance and associated graphicId
