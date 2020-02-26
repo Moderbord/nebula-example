@@ -308,6 +308,9 @@ ExampleApplication::Run()
 	Component::Graphic::Instance()->PlayAnimated(ent3);
 
 
+
+
+
     //Graphics::GraphicsEntityId exampleEntity = Graphics::CreateEntity();
     ////// Register entity to various graphics contexts.
     //// The template parameters are which contexts that the entity should be registered to.
@@ -374,7 +377,7 @@ ExampleApplication::Run()
         // put game code which need visibility data here
         this->gfxServer->RenderViews();
 		
-		this->compMgr->OnRender();
+		this->compMgr->OnRender(); // p
 
         // put game code which needs rendering to be done (animation etc) here
         this->gfxServer->EndViews();
@@ -465,11 +468,18 @@ ExampleApplication::UpdateCamera()
     {
         this->mayaCameraUtil.Reset();
 
-		Component::Message<Component::Graphic>(1, Message::Type::MEMEFY);
+		Message::SendMove m;
+		m.target = 1;
+		m.vec = Math::float4(0, 0, 5, 0);
+
+		Message::Message msg = Message::Message(&m);
+
+		Message::Component<Component::Graphic>(msg);
+		//Component::Message<Component::Graphic>(1, Message::Type::MEMEFY);
     }
     if (keyboard->KeyPressed(Input::Key::Left))
     {
-		Component::Message<Component::Graphic>(3, Message::Type::DEREGISTER);
+		//Component::Message<Component::Graphic>(3, Message::Type::DEREGISTER);
 
         panning.x() -= 0.1f;
         pos.x() -= 0.1f;

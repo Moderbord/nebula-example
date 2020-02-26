@@ -35,7 +35,7 @@ namespace Component {
 		void OnRender();
 		void OnEndFrame();
 		void Clear();
-		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
+		//void OnMessage(const Entities::Entity& entity, const Message::Type& type);
 
 		struct Attributes{
 			Util::Array<Math::matrix44> transform;
@@ -67,7 +67,7 @@ namespace Component {
 		void OnRender();
 		void OnEndFrame();
 		void Clear();
-		void OnMessage(const Entities::Entity& entity, const Message::Type& type);
+		void OnMessage(const Message::Message& msg);
 
 		struct Attributes {
 			//Util::Array<Entities::Entity> graphicId;

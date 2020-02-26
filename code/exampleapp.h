@@ -25,6 +25,7 @@
 
 #include "componentmanager.h"
 #include "entitymanager.h"
+#include "message.h"
 
 namespace Example
 {

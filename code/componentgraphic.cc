@@ -85,13 +85,10 @@ namespace Component {
 
 	inline void Graphic::OnRender()
 	{
+		// movespead instead
 		Math::matrix44 transform = Component::Transform::Instance()->GetTransform(3);
 		transform.translate(Math::float4(0, 0, 0.1, 0));
 		Component::Transform::Instance()->SetTransform(3, transform);
-
-		//Math::matrix44 transform2 = Component::Transform::Instance()->GetTransform(1);
-		//transform2.translate(Math::float4(0, 0, 0.05, 0));
-		//Component::Transform::Instance()->SetTransform(ent2, transform2);
 	}
 
 	inline void Graphic::OnEndFrame()
@@ -103,35 +100,21 @@ namespace Component {
 		this->_instanceMap.Clear();
 	}
 
-	void Graphic::OnMessage(const Entities::Entity& entity, const Message::Type& msgType)
+	void Graphic::OnMessage(const Message::Message& msg)
 	{
-		auto it = this->_instanceMap.Begin();
-		while (true)
-		{
-			if (it.key != nullptr && *it.key == entity)
+		switch (msg.type)
 			{
-				// Map entity to instance
-				InstanceId instance = *it.val;
-				switch (msgType)
-				{
-				case Message::Type::DEREGISTER:
-					this->Deconstruct(entity);
-					this->DeregisterEntity(entity);
-					break;
-				case Message::Type::MEMEFY: // test move
-					Math::matrix44 transform = Component::Transform::Instance()->GetTransform(entity);
-					transform.translate(Math::float4(0, 0, 5, 0));
-					Component::Transform::Instance()->SetTransform(entity, transform);
-				}
-			}
-
-			// Entity not present
-			if (it == this->_instanceMap.End())
-			{
+			case 'sTrf':
+				//this->Deconstruct(entity);
+				//this->DeregisterEntity(entity);
 				break;
+			case 'sMov': // test move
+				Message::SendMove* data = (Message::SendMove*)msg.data;
+
+				Math::matrix44 transform = Component::Transform::Instance()->GetTransform(data->target);
+				transform.translate(data->vec);
+				Component::Transform::Instance()->SetTransform(data->target, transform);
 			}
-			it++;
-		}
 	}
 
 	void Graphic::Setup(const Entities::Entity& entity)
