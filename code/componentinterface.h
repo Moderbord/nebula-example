@@ -24,17 +24,9 @@ namespace Component {
 		ComponentInterface();
 		~ComponentInterface();
 
-		InstanceId RegisterEntity(const Entities::Entity& e);
-
-		void DeregisterEntity(const Entities::Entity& e);
-
-		bool IsRegistered(const Entities::Entity& e);
-
-		InstanceId GetInstanceID(const Entities::Entity& e);
-
-		const Util::StringAtom GetStringID() const;
-
 		virtual void OnRegister(const Entities::Entity& e) = 0;
+
+		virtual void OnDeregister(const Entities::Entity& e) = 0;
 
 		virtual void OnReset(const Entities::Entity& e, const InstanceId& id) = 0;
 
@@ -44,13 +36,23 @@ namespace Component {
 
 		virtual void OnEndFrame() = 0;
 
-		virtual void Clear() = 0;
+		virtual void OnMessage(const Message::Message& msg) = 0;
 
 		virtual const Entities::Entity GetOwner(const InstanceId& id) = 0;
 
-		Util::StringAtom stringID;
+		InstanceId RegisterEntity(const Entities::Entity& e);
+
+		bool IsRegistered(const Entities::Entity& e);
+
+		InstanceId GetInstanceID(const Entities::Entity& e);
+
+		const Util::StringAtom GetStringID() const;
+
+		void Clear();
 
 	protected:
+		// string atom Id
+		Util::StringAtom _stringID;
 		// tracks number of instances the component has
 		SizeT _numInstances;
 		// keeps track of the highest ID which will be assigned to an instance

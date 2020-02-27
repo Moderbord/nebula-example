@@ -10,6 +10,11 @@
 namespace Component
 {
 
+	struct Attributes {
+		Util::Array<Entities::Entity> owners;
+	};
+	Attributes _instanceData;
+
 ComponentInterface::ComponentInterface()
 	: _nextInstanceID(0), _numInstances(0)
 {
@@ -51,15 +56,6 @@ InstanceId ComponentInterface::RegisterEntity(const Entities::Entity& e)
 	return id;
 }
 
-void ComponentInterface::DeregisterEntity(const Entities::Entity& e)
-{
-	n_assert(this->_instanceMap.Contains(e));
-	// TODO this will leave an unused "gap" in memory until new entity fills it
-	this->_instanceQueue.Enqueue(this->_instanceMap[e]);
-	this->_instanceMap.Erase(e);
-	this->_numInstances--;
-}
-
 bool ComponentInterface::IsRegistered(const Entities::Entity& e)
 {
 	return this->_instanceMap.Contains(e);
@@ -74,7 +70,12 @@ InstanceId ComponentInterface::GetInstanceID(const Entities::Entity& e)
 const Util::StringAtom
 ComponentInterface::GetStringID() const
 {
-	return this->stringID;
+	return this->_stringID;
+}
+
+void ComponentInterface::Clear()
+{
+	this->_instanceMap.Clear();
 }
 
 }

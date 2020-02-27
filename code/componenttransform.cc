@@ -19,7 +19,7 @@ namespace Component {
 	Transform::Transform()
 	{
 		__ConstructSingleton
-		this->stringID = Util::StringAtom("transform");
+		this->_stringID = Util::StringAtom("transform");
 		this->_instanceData.owners.Reserve(MaxNumInstances);
 		this->_instanceData.transform.Reserve(MaxNumInstances);
 	}
@@ -39,6 +39,25 @@ namespace Component {
 		this->_instanceData.transform.Append(_identityMatrix);
 	}
 
+	void Transform::OnDeregister(const Entities::Entity& e)
+	{
+		n_assert(this->_instanceMap.Contains(e));
+
+		// Get the instance that is mapped to the entity
+		InstanceId freedInstance = this->_instanceMap[e];
+		// Get index of last instance that will be swapped
+		IndexT lastInstanceIndex = this->_numInstances - 1;
+		// Get the entity who owns the last instance
+		Entities::Entity lastInstanceOwner = this->_instanceData.owners[lastInstanceIndex];
+
+		// Erase the deregistered entity from the instance map
+		this->_instanceMap.Erase(e);
+		// Decrement amount of registered entities
+		this->_numInstances--;
+
+		//this->_instanceQueue.Enqueue(freedInstance);
+	}
+
 	inline void Transform::OnReset(const Entities::Entity& entity, const InstanceId& instance)
 	{
 		this->_instanceData.owners[instance] = entity;
@@ -53,11 +72,6 @@ namespace Component {
 
 	inline void Transform::OnEndFrame()
 	{}
-
-	inline void Transform::Clear()
-	{
-		this->_instanceMap.Clear();
-	}
 
 	void Transform::OnMessage(const Message::Message& msg)
 	{

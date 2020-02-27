@@ -27,11 +27,11 @@ namespace Component {
 		~Transform();
 
 		void OnRegister(const Entities::Entity& entity);
+		void OnDeregister(const Entities::Entity& e);
 		void OnReset(const Entities::Entity& entity, const InstanceId& instance);
 		void OnBeginFrame();
 		void OnRender();
 		void OnEndFrame();
-		void Clear();
 		void OnMessage(const Message::Message& msg);
 
 		struct Attributes{
@@ -62,11 +62,12 @@ namespace Component {
 		~Graphic();
 
 		void OnRegister(const Entities::Entity& entity);
+		//template<typename T>
+		void OnDeregister(const Entities::Entity& e);
 		void OnReset(const Entities::Entity& entity, const InstanceId& instance);
 		void OnBeginFrame();
 		void OnRender();
 		void OnEndFrame();
-		void Clear();
 		void OnMessage(const Message::Message& msg);
 
 		struct Attributes {
@@ -78,10 +79,6 @@ namespace Component {
 			Util::Array<Util::StringAtom> tag;
 		};
 
-		void Setup(const Entities::Entity& entity);
-		void SetupAnimated(const Entities::Entity& entity);
-		void Remove(const Entities::Entity& entity);
-
 		const Entities::Entity GetOwner(const InstanceId& instance);
 
 		void SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource);
@@ -89,6 +86,9 @@ namespace Component {
 		void SetAnimation(const Entities::Entity& entity, const Util::StringAtom& animation);
 		void SetTag(const Entities::Entity& entity, const Util::StringAtom& tag);
 
+		void Setup(const Entities::Entity& entity);
+		void SetupAnimated(const Entities::Entity& entity);
+		void Remove(const Entities::Entity& entity);
 		void PlayAnimated(const Entities::Entity& entity);
 
 	private:

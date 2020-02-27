@@ -10,15 +10,13 @@
 */
 namespace Component {
 
-	struct Attributes;
-
 	__ImplementSingleton(Component::Graphic)
 
 		// constructor
 	Graphic::Graphic()
 	{
 		__ConstructSingleton
-		this->stringID = Util::StringAtom("graphic");
+		this->_stringID = Util::StringAtom("graphic");
 		// Reserve memory
 		this->_instanceData.owners.Reserve(MaxNumInstances);
 		this->_instanceData.graphicId.Reserve(MaxNumInstances);
@@ -50,6 +48,40 @@ namespace Component {
 		this->_instanceData.tag.Append("Examples");
 		this->_instanceData.skeleton.Append("");
 		this->_instanceData.animation.Append("");
+	}
+
+	//template<typename T>
+	void Graphic::OnDeregister(const Entities::Entity& e)
+	{
+		n_assert(this->_instanceMap.Contains(e));
+
+		// Get the instance that is mapped to the entity
+		InstanceId freedInstance = this->_instanceMap[e];
+		// Get index of last instance that will be swapped
+		IndexT lastInstanceIndex = this->_numInstances - 1;
+		// Get the entity who owns the last instance
+		Entities::Entity lastInstanceOwner = this->_instanceData.owners[lastInstanceIndex];
+		// Update instance map
+		this->_instanceMap[lastInstanceOwner] = freedInstance;
+
+		this->_instanceData.owners.EraseIndexSwap(freedInstance);
+		this->_instanceData.graphicId.EraseIndexSwap(freedInstance);
+		this->_instanceData.resourceName.EraseIndexSwap(freedInstance);
+		this->_instanceData.skeleton.EraseIndexSwap(freedInstance);
+		this->_instanceData.animation.EraseIndexSwap(freedInstance);
+		this->_instanceData.tag.EraseIndexSwap(freedInstance);
+
+		//for (Util::Array<T> data : this->_instanceData)
+		//{
+		//	data.EraseIndexSwap(freedInstance);
+		//}
+
+		// Erase the deregistered entity from the instance map
+		this->_instanceMap.Erase(e);
+		// Decrement amount of registered entities
+		this->_numInstances--;
+
+		//this->_instanceQueue.Enqueue(freedInstance);
 	}
 
 	inline void Graphic::OnReset(const Entities::Entity& entity, const InstanceId& instance)
@@ -92,11 +124,6 @@ namespace Component {
 	inline void Graphic::OnEndFrame()
 	{}
 
-	inline void Graphic::Clear()
-	{
-		this->_instanceMap.Clear();
-	}
-
 	void Graphic::OnMessage(const Message::Message& msg)
 	{
 		switch (msg.type)
@@ -107,7 +134,7 @@ namespace Component {
 				// remove from visual context (nebula stuff)
 				this->Remove(data->targetId);
 				// deregister from component
-				this->DeregisterEntity(data->targetId);
+				this->OnDeregister(data->targetId);
 				break;
 			}
 			case 'sMov': // test move
@@ -122,6 +149,35 @@ namespace Component {
 				break;
 			}
 			}
+	}
+
+	const Entities::Entity Graphic::GetOwner(const InstanceId& instance)
+	{
+		return this->_instanceData.owners[instance];
+	}
+
+	void Graphic::SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource)
+	{
+		InstanceId instance = this->_instanceMap[entity];
+		this->_instanceData.resourceName[instance] = resource;
+	}
+
+	void Graphic::SetSkeleton(const Entities::Entity& entity, const Util::StringAtom& skeleton)
+	{
+		InstanceId instance = this->_instanceMap[entity];
+		this->_instanceData.skeleton[instance] = skeleton;
+	}
+
+	void Graphic::SetAnimation(const Entities::Entity& entity, const Util::StringAtom& animation)
+	{
+		InstanceId instance = this->_instanceMap[entity];
+		this->_instanceData.animation[instance] = animation;
+	}
+
+	void Graphic::SetTag(const Entities::Entity& entity, const Util::StringAtom& tag)
+	{
+		InstanceId instance = this->_instanceMap[entity];
+		this->_instanceData.tag[instance] = tag;
 	}
 
 	void Graphic::Setup(const Entities::Entity& entity)
@@ -153,7 +209,7 @@ namespace Component {
 		Visibility::ObservableContext::Setup(graphicId, Visibility::VisibilityEntityType::Model);
 		// Setup skeleton and animation
 		Characters::CharacterContext::Setup(graphicId, this->_instanceData.skeleton[instance],
-			this->_instanceData.animation[instance],this->_instanceData.tag[instance]);
+			this->_instanceData.animation[instance], this->_instanceData.tag[instance]);
 	}
 
 	void Graphic::Remove(const Entities::Entity& entity)
@@ -167,35 +223,6 @@ namespace Component {
 		// check if animated 
 		if (Characters::CharacterContext::IsEntityRegistered(graphicId))
 			Characters::CharacterContext::DeregisterEntity(graphicId);
-	}
-
-	const Entities::Entity Graphic::GetOwner(const InstanceId& instance)
-	{
-		return this->_instanceData.owners[instance];
-	}
-
-	void Graphic::SetResourceName(const Entities::Entity& entity, const Util::StringAtom& resource)
-	{
-		InstanceId instance = this->_instanceMap[entity];
-		this->_instanceData.resourceName[instance] = resource;
-	}
-
-	void Graphic::SetSkeleton(const Entities::Entity& entity, const Util::StringAtom& skeleton)
-	{
-		InstanceId instance = this->_instanceMap[entity];
-		this->_instanceData.skeleton[instance] = skeleton;
-	}
-
-	void Graphic::SetAnimation(const Entities::Entity& entity, const Util::StringAtom& animation)
-	{
-		InstanceId instance = this->_instanceMap[entity];
-		this->_instanceData.animation[instance] = animation;
-	}
-
-	void Graphic::SetTag(const Entities::Entity& entity, const Util::StringAtom& tag)
-	{
-		InstanceId instance = this->_instanceMap[entity];
-		this->_instanceData.tag[instance] = tag;
 	}
 
 	void Graphic::PlayAnimated(const Entities::Entity& entity)

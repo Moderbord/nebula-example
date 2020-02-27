@@ -470,7 +470,7 @@ ExampleApplication::UpdateCamera()
     if (keyboard->KeyDown(Input::Key::Space))
     {
 		Message::Deregister mm;
-		mm.targetId = 3;
+		mm.targetId = 4;
 
 		Message::Message msg2 = Message::Message(&mm);
 		Message::Component<Component::Graphic>(msg2);

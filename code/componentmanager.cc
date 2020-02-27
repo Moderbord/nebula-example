@@ -28,7 +28,7 @@ namespace Manager
 	void ComponentManager::RegisterComponent(Component::ComponentInterface* component)
 	{
 		this->_components.Append(component);
-		this->_componentTable.Add(component->stringID, component);
+		this->_componentTable.Add(component->GetStringID(), component);
 	}
 
 	void ComponentManager::UnregisterComponent(Component::ComponentInterface* component)
@@ -130,7 +130,7 @@ namespace Manager
 		{	
 			// Check if entity is registered
 			if (component->IsRegistered(entity))
-				component->DeregisterEntity(entity);
+				component->OnDeregister(entity);
 		}
 	}
 
