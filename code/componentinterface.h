@@ -28,8 +28,6 @@ namespace Component {
 
 		virtual void OnDeregister(const Entities::Entity& e) = 0;
 
-		virtual void OnReset(const Entities::Entity& e, const InstanceId& id) = 0;
-
 		virtual void OnBeginFrame() = 0;
 
 		virtual void OnRender() = 0;

@@ -279,6 +279,7 @@ ExampleApplication::Run()
 
 	Entities::Entity ent5 = p_NewEntity();
 	Entities::Entity ent6 = p_NewEntity();
+	Entities::Entity ent7 = p_NewEntity();
 
 	Component::Register<Component::Transform>(ent4);
 	Component::Register<Component::Graphic>(ent4);

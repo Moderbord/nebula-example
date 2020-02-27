@@ -63,7 +63,7 @@ namespace Component {
 		Entities::Entity lastInstanceOwner = this->_instanceData.owners[lastInstanceIndex];
 		// Update instance map
 		this->_instanceMap[lastInstanceOwner] = freedInstance;
-
+		// swap all data
 		this->_instanceData.owners.EraseIndexSwap(freedInstance);
 		this->_instanceData.graphicId.EraseIndexSwap(freedInstance);
 		this->_instanceData.resourceName.EraseIndexSwap(freedInstance);
@@ -82,17 +82,6 @@ namespace Component {
 		this->_numInstances--;
 
 		//this->_instanceQueue.Enqueue(freedInstance);
-	}
-
-	inline void Graphic::OnReset(const Entities::Entity& entity, const InstanceId& instance)
-	{
-		this->_instanceData.owners[instance] = entity;
-		Graphics::GraphicsEntityId id = Graphics::CreateEntity();
-		this->_instanceData.graphicId[instance] = id;
-		this->_instanceData.resourceName[instance] = "mdl:system/placeholder.n3";
-		this->_instanceData.tag[instance] = "Examples";
-		this->_instanceData.skeleton[instance] = "";
-		this->_instanceData.animation[instance] = "";
 	}
 
 	inline void Graphic::OnBeginFrame()

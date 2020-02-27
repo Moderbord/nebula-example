@@ -49,19 +49,16 @@ namespace Component {
 		IndexT lastInstanceIndex = this->_numInstances - 1;
 		// Get the entity who owns the last instance
 		Entities::Entity lastInstanceOwner = this->_instanceData.owners[lastInstanceIndex];
+		// Update instance map
+		this->_instanceMap[lastInstanceOwner] = freedInstance;
+
+		this->_instanceData.owners.EraseIndexSwap(freedInstance);
+		this->_instanceData.transform.EraseIndexSwap(freedInstance);
 
 		// Erase the deregistered entity from the instance map
 		this->_instanceMap.Erase(e);
 		// Decrement amount of registered entities
 		this->_numInstances--;
-
-		//this->_instanceQueue.Enqueue(freedInstance);
-	}
-
-	inline void Transform::OnReset(const Entities::Entity& entity, const InstanceId& instance)
-	{
-		this->_instanceData.owners[instance] = entity;
-		this->_instanceData.transform[instance] = _identityMatrix;
 	}
 
 	inline void Transform::OnBeginFrame()

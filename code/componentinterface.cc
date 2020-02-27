@@ -31,19 +31,6 @@ InstanceId ComponentInterface::RegisterEntity(const Entities::Entity& e)
 	// check if entity already isn't registered
 	n_assert(!this->_instanceMap.Contains(e));
 
-	// If queue isn't empty
-	if (!this->_instanceQueue.IsEmpty())
-	{
-		// pull from queue
-		InstanceId id = this->_instanceQueue.Dequeue();
-		// map entity with queued instance
-		this->_instanceMap.Add(e, id);
-		this->_numInstances++;
-		// reset queued instance data
-		this->OnReset(e, id);
-		return id;
-	}
-
 	// TODO may go out of maximum allowed entries
 	// assign and increment
 	InstanceId id = this->_nextInstanceID++;
